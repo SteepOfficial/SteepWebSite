@@ -1,51 +1,12 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Profesyonel portföy sitesi - Steep">
-  <meta name="keywords" content="portföy, web geliştirme, HTML, CSS, JavaScript">
-  <meta name="author" content="Steep">
-  <title>Steep - Portföy</title>
+  <meta name="description" content="Profesyonel oyun geliştirme - Steep Games">
+  <meta name="keywords" content="Roblox, oyun geliştirme, Steep Games, HTML, CSS, JavaScript">
+  <meta name="author" content="Steep Games">
+  <title>Steep Games - Roblox Innovators</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -53,11 +14,11 @@
   <!-- Navbar -->
   <nav class="bg-blue-600 text-white p-4 fixed w-full top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Steep</h1>
+      <h1 class="text-2xl font-bold">Steep Games</h1>
       <ul class="flex space-x-6">
         <li><a href="#home" class="hover:text-blue-200">Ana Sayfa</a></li>
-        <li><a href="#about" class="hover:text-blue-200">Hakkımda</a></li>
-        <li><a href="#projects" class="hover:text-blue-200">Projeler</a></li>
+        <li><a href="#games" class="hover:text-blue-200">Oyunlar</a></li>
+        <li><a href="#about" class="hover:text-blue-200">Hakkında</a></li>
         <li><a href="#contact" class="hover:text-blue-200">İletişim</a></li>
       </ul>
     </div>
@@ -66,57 +27,47 @@
   <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
     <div class="container mx-auto text-center">
-      <h2 class="text-5xl font-bold mb-4">Merhaba, Ben Steep!</h2>
-      <p class="text-xl mb-6">Web geliştiricisi ve teknoloji tutkunu. Harika şeyler inşa ediyorum.</p>
-      <a href="#projects" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-100">Projelerime Göz At</a>
+      <h2 class="text-5xl font-bold mb-4">Hoş Geldiniz, Steep Games!</h2>
+      <p class="text-xl mb-6">Roblox için yenilikçi ve etkileyici oyunlar geliştiriyoruz.</p>
+      <a href="#games" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-100">Oyunları Keşfet</a>
+    </div>
+  </section>
+
+  <!-- Games Section -->
+  <section id="games" class="py-20 bg-gray-100">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-8">Oyunlarımız</h2>
+      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Oyun kartları script ile doldurulacak -->
+      </div>
     </div>
   </section>
 
   <!-- About Section -->
   <section id="about" class="py-20 bg-white">
     <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">Hakkımda</h2>
-      <p class="text-lg max-w-2xl mx-auto">Merhaba! Ben Steep, 5 yıllık HTML/CSS/JS tecrübemle modern ve kullanıcı dostu web siteleri tasarlıyorum. Amacım, temiz kod ve yaratıcı tasarımlarla dijital dünyada fark yaratmak.</p>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="py-20 bg-gray-100">
-    <div class="container mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-8">Projelerim</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2">Proje 1</h3>
-          <p>Modern bir e-ticaret sitesi. HTML, CSS ve JS ile geliştirildi.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2">Proje 2</h3>
-          <p>Blog platformu, kullanıcı dostu arayüz ve hızlı performans.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2">Proje 3</h3>
-          <p>Kişisel portföy sitesi, responsive ve modern tasarım.</p>
-        </div>
-      </div>
+      <h2 class="text-4xl font-bold mb-8">Hakkımızda</h2>
+      <p class="text-lg max-w-2xl mx-auto">Steep Games, Roblox topluluğu için tutkuyla yüksek kaliteli oyunlar geliştiren bir ekibiz. Amacımız, oyunculara unutulmaz deneyimler sunmak.</p>
     </div>
   </section>
 
   <!-- Contact Section -->
   <section id="contact" class="py-20 bg-blue-600 text-white">
     <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">İletişime Geç</h2>
-      <p class="text-lg mb-6">Bir proje mi konuşalım? Bana ulaş!</p>
-      <a href="desteksteep@email.com" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-100">E-posta Gönder</a>
+      <h2 class="text-4xl font-bold mb-8">Bize Ulaşın</h2>
+      <p class="text-lg mb-6">Bir işbirliği mi düşünüyorsunuz? İletişime geçin!</p>
+      <a href="mailto:support@steepgames.com" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-100">E-posta Gönder</a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4">
     <div class="container mx-auto text-center">
-      <p>&copy; 2025 Steep. Tüm hakları saklıdır.</p>
+      <p>© 2025 Steep Games. Tüm hakları saklıdır.</p>
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
