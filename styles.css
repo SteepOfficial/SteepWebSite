@@ -1,13 +1,9 @@
-/* Ekstra stiller için */
-body {
-  margin: 0;
+/* Smooth scroll için body’e behavior ekleyelim */
+html {
   scroll-behavior: smooth;
 }
 
-nav a {
-  transition: color 0.3s ease;
-}
-
+/* Tailwind’in varsayılan padding’ini düzenlemek için */
 section {
-  padding-top: 80px; /* Navbar yüksekliği için */
+  scroll-margin-top: 80px; /* Navbar yüksekliği kadar boşluk bırak */
 }
