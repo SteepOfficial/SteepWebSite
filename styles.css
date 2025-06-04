@@ -1,9 +1,93 @@
-/* Smooth scroll için body’e behavior ekleyelim */
+/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Tailwind’in varsayılan padding’ini düzenlemek için */
 section {
-  scroll-margin-top: 80px; /* Navbar yüksekliği kadar boşluk bırak */
+  scroll-margin-top: 80px; /* Navbar yüksekliği kadar boşluk */
+}
+
+/* Font */
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Custom Colors (Tailwind ile override) */
+.bg-dark {
+  background-color: #1A1D2E;
+}
+
+.bg-dark-light {
+  background-color: #25273A;
+}
+
+.bg-primary {
+  background-color: #6B48FF; /* Mor ton */
+}
+
+.bg-secondary {
+  background-color: #00DDEB; /* Cyan ton */
+}
+
+.text-accent {
+  color: #00DDEB;
+}
+
+.bg-accent {
+  background-color: #00DDEB;
+}
+
+.bg-accent-hover {
+  background-color: #00B8C4;
+}
+
+.text-dark {
+  color: #1A1D2E;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-in-out;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+/* Game Card Hover Effect */
+#game-grid > div {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#game-grid > div:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
