@@ -36,12 +36,11 @@ function loadFileData(filename) {
           `;
         }
       });
-      return;
     } catch (e) {
-      console.error(e);
+      console.error("Error loading file data:", e);
+      // Fallback content already in HTML
     }
   }
-  return gk_fileData[filename] || "";
 }
 
 // Smooth Scroll and Initial Load
@@ -62,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetId = this.getAttribute('href').substring(1);
     const targetElement = document.getElementById(targetId);
     targetElement.scrollIntoView({ behavior: 'smooth' });
-  });
+    });
 
   // Sample data for testing
   var sampleData = "data:application/octet-stream;base64,SGVsbG8sV29ybGQ=";
