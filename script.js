@@ -13,11 +13,9 @@ function loadFileData(filename) {
       var firstSheetName = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[firstSheetName];
 
-      // Convert sheet to JSON to filter blank rows
       var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
       var filteredData = jsonData.filter(row => row.some(filledCell));
 
-      // Heuristic to find the header row
       var headerRowIndex = filteredData.findIndex((row, index) =>
         row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
       );
@@ -25,16 +23,15 @@ function loadFileData(filename) {
         headerRowIndex = 0;
       }
 
-      // Convert filtered data to HTML game cards
       var gameGrid = document.getElementById('game-grid');
       gameGrid.innerHTML = '';
       filteredData.slice(headerRowIndex + 1).forEach(row => {
-        if (row.length >= 3) { // Assuming columns: Title, Description, Link
+        if (row.length >= 3) {
           gameGrid.innerHTML += `
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-              <h3 class="text-2xl font-semibold mb-2">${row[0]}</h3>
-              <p>${row[1]}</p>
-              <a href="${row[2]}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-full mt-4 inline-block hover:bg-blue-700">Oyna</a>
+            <div class="bg-dark p-6 rounded-lg shadow-lg">
+              <h3 class="text-2xl font-semibold mb-2 text-accent">${row[0]}</h3>
+              <p class="text-gray-300">${row[1]}</p>
+              <a href="${row[2]}" target="_blank" class="bg-accent text-dark px-4 py-2 rounded-full mt-4 inline-block hover:bg-accent-hover">Play Now</a>
             </div>
           `;
         }
@@ -47,9 +44,9 @@ function loadFileData(filename) {
   return gk_fileData[filename] || "";
 }
 
-// Smooth Scroll for Navigation
+// Smooth Scroll and Initial Load
 document.addEventListener('DOMContentLoaded', () => {
-  // Smooth scroll için navigasyon linklerine tıklama eventi
+  // Smooth scroll for navigation
   document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -59,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Aynı eventi hero section’daki "Oyunları Keşfet" butonuna da ekleyelim
+  // Smooth scroll for hero button
   document.querySelector('.hero-button').addEventListener('click', function(e) {
     e.preventDefault();
     const targetId = this.getAttribute('href').substring(1);
@@ -67,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     targetElement.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Örnek veri (gerçek bir XLSX/CSV yerine test için)
-  var sampleData = "data:application/octet-stream;base64,SGVsbG8sV29ybGQ="; // Base64 encoded sample
+  // Sample data for testing
+  var sampleData = "data:application/octet-stream;base64,SGVsbG8sV29ybGQ=";
   gk_fileData['games.xlsx'] = sampleData;
   gk_isXlsx = true;
   gk_xlsxFileLookup['games.xlsx'] = true;
