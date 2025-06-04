@@ -11,65 +11,65 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-dark font-sans text-white">
+<body class="bg-dark font-sans text-white overflow-x-hidden">
   <!-- Navbar -->
-  <nav class="bg-dark-light text-white p-4 fixed w-full top-0 z-10">
+  <nav class="bg-dark-light text-white p-6 fixed w-full top-0 z-50 shadow-lg">
     <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Steep Games</h1>
-      <ul class="flex space-x-6">
-        <li><a href="#home" class="hover:text-accent">Home</a></li>
-        <li><a href="#games" class="hover:text-accent">Games</a></li>
-        <li><a href="#about" class="hover:text-accent">About</a></li>
-        <li><a href="#contact" class="hover:text-accent">Contact</a></li>
+      <h1 class="text-3xl font-bold animate-pulse-slow">Steep Games</h1>
+      <ul class="flex space-x-8">
+        <li><a href="#home" class="hover:text-accent transition-colors duration-300">Home</a></li>
+        <li><a href="#games" class="hover:text-accent transition-colors duration-300">Games</a></li>
+        <li><a href="#about" class="hover:text-accent transition-colors duration-300">About</a></li>
+        <li><a href="#contact" class="hover:text-accent transition-colors duration-300">Contact</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-secondary text-white">
-    <div class="container mx-auto text-center">
-      <h2 class="text-5xl md:text-6xl font-bold mb-4">Welcome to Steep Games!</h2>
-      <p class="text-xl md:text-2xl mb-6">We create innovative and immersive Roblox experiences.</p>
-      <a href="#games" class="hero-button bg-accent text-dark px-6 py-3 rounded-full font-semibold hover:bg-accent-hover">Discover Our Games</a>
+  <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-dark via-primary to-secondary text-white animate-gradient">
+    <div class="container mx-auto text-center animate-fade-in-down">
+      <h2 class="text-6xl md:text-7xl font-bold mb-6 animate-bounce-in">Welcome to Steep Games!</h2>
+      <p class="text-2xl md:text-3xl mb-8 animate-fade-in delay-200">Crafting cutting-edge Roblox experiences.</p>
+      <a href="#games" class="hero-button bg-accent text-dark px-8 py-4 rounded-full font-semibold hover:bg-accent-hover hover:scale-110 transition-all duration-300 animate-fade-in delay-300">Explore Our Games</a>
     </div>
   </section>
 
   <!-- Games Section -->
-  <section id="games" class="py-20 bg-dark-light">
+  <section id="games" class="py-24 bg-dark-light">
     <div class="container mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-8">Our Games</h2>
-      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Fallback content in case script fails -->
-        <div class="bg-dark p-6 rounded-lg shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2 text-accent">Sample Game</h3>
-          <p class="text-gray-300">A thrilling Roblox adventure awaits.</p>
-          <a href="https://www.roblox.com/games/123456789" target="_blank" class="bg-accent text-dark px-4 py-2 rounded-full mt-4 inline-block hover:bg-accent-hover">Play Now</a>
+      <h2 class="text-5xl font-bold text-center mb-12 text-white animate-fade-in-down">Our Games</h2>
+      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Fallback content -->
+        <div class="bg-dark p-6 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 transform hover:rotate-2">
+          <h3 class="text-2xl font-semibold mb-4 text-accent">Epic Adventure</h3>
+          <p class="text-gray-300 mb-6">Dive into a thrilling Roblox world.</p>
+          <a href="https://www.roblox.com/games/123456789" target="_blank" class="bg-accent text-dark px-5 py-2 rounded-full hover:bg-accent-hover hover:scale-105 transition-all duration-300">Play Now</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-20 bg-dark">
+  <section id="about" class="py-24 bg-gradient-to-br from-dark to-dark-light">
     <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">About Us</h2>
-      <p class="text-lg max-w-2xl mx-auto text-gray-300">Steep Games is a passionate team dedicated to crafting high-quality Roblox games that inspire and entertain players worldwide.</p>
+      <h2 class="text-5xl font-bold mb-10 text-white animate-fade-in-down">About Us</h2>
+      <p class="text-xl max-w-3xl mx-auto text-gray-300 animate-fade-in delay-200">Steep Games is a passionate team dedicated to crafting high-quality Roblox games that inspire and entertain players worldwide with innovative designs.</p>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gradient-to-r from-primary to-secondary">
+  <section id="contact" class="py-24 bg-gradient-to-tr from-primary-dark via-primary to-secondary">
     <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">Get in Touch</h2>
-      <p class="text-lg mb-6">Interested in collaborating? Reach out to us!</p>
-      <a href="mailto:desteksteep@gmail.com" class="bg-accent text-dark px-6 py-3 rounded-full font-semibold hover:bg-accent-hover">Send an Email</a>
+      <h2 class="text-5xl font-bold mb-10 text-white animate-fade-in-down">Get in Touch</h2>
+      <p class="text-xl mb-6 text-gray-300 animate-fade-in delay-200">Ready to collaborate? Let’s connect!</p>
+      <a href="mailto:support@steepgames.com" class="bg-accent text-dark px-8 py-4 rounded-full font-semibold hover:bg-accent-hover hover:scale-110 transition-all duration-300 animate-fade-in delay-300">Send an Email</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-dark-light py-4">
+  <footer class="bg-dark-light py-6">
     <div class="container mx-auto text-center">
-      <p>© 2025 Steep Games. All rights reserved.</p>
+      <p class="text-gray-400 animate-fade-in">© 2025 Steep Games. All rights reserved.</p>
     </div>
   </footer>
 
