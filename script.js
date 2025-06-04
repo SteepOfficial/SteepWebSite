@@ -28,17 +28,16 @@ function loadFileData(filename) {
       filteredData.slice(headerRowIndex + 1).forEach(row => {
         if (row.length >= 3) {
           gameGrid.innerHTML += `
-            <div class="bg-dark p-6 rounded-lg shadow-lg">
-              <h3 class="text-2xl font-semibold mb-2 text-accent">${row[0]}</h3>
-              <p class="text-gray-300">${row[1]}</p>
-              <a href="${row[2]}" target="_blank" class="bg-accent text-dark px-4 py-2 rounded-full mt-4 inline-block hover:bg-accent-hover">Play Now</a>
+            <div class="bg-dark p-6 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 transform hover:rotate-2">
+              <h3 class="text-2xl font-semibold mb-4 text-accent">${row[0]}</h3>
+              <p class="text-gray-300 mb-6">${row[1]}</p>
+              <a href="${row[2]}" target="_blank" class="bg-accent text-dark px-5 py-2 rounded-full hover:bg-accent-hover hover:scale-105 transition-all duration-300">Play Now</a>
             </div>
           `;
         }
       });
     } catch (e) {
       console.error("Error loading file data:", e);
-      // Fallback content already in HTML
     }
   }
 }
@@ -61,10 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetId = this.getAttribute('href').substring(1);
     const targetElement = document.getElementById(targetId);
     targetElement.scrollIntoView({ behavior: 'smooth' });
-    });
+  });
 
   // Sample data for testing
-  var sampleData = "data:application/octet-stream;base64,SGVsbG8sV29ybGQ=";
+  var sampleData = "data:application/octet-stream;base64,UHJvamVjdA=="; // Base64 encoded sample
   gk_fileData['games.xlsx'] = sampleData;
   gk_isXlsx = true;
   gk_xlsxFileLookup['games.xlsx'] = true;
