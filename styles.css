@@ -22,15 +22,15 @@ body {
 }
 
 .bg-primary-dark {
-  background-color: #4A2EFF; /* Daha koyu mor */
+  background-color: #4A2EFF;
 }
 
 .bg-primary {
-  background-color: #6B48FF; /* Mor */
+  background-color: #6B48FF;
 }
 
 .bg-secondary {
-  background-color: #00DDEB; /* Cyan */
+  background-color: #00DDEB;
 }
 
 .text-accent {
