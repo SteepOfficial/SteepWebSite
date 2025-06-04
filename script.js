@@ -7,6 +7,10 @@ function filledCell(cell) {
 }
 
 function loadFileData(filename) {
+  // Geçici olarak devre dışı bırakıyoruz, statik kartlar kullanıyoruz
+  console.log("loadFileData called, but currently disabled for testing");
+  return;
+  /*
   if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
     try {
       var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
@@ -40,9 +44,10 @@ function loadFileData(filename) {
       console.error("Error loading file data:", e);
     }
   }
+  */
 }
 
-// Smooth Scroll and Initial Load
+// Smooth Scroll
 document.addEventListener('DOMContentLoaded', () => {
   // Smooth scroll for navigation
   document.querySelectorAll('nav a').forEach(anchor => {
@@ -62,10 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     targetElement.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Sample data for testing
-  var sampleData = "data:application/octet-stream;base64,UHJvamVjdA=="; // Base64 encoded sample
-  gk_fileData['games.xlsx'] = sampleData;
-  gk_isXlsx = true;
-  gk_xlsxFileLookup['games.xlsx'] = true;
-  loadFileData('games.xlsx');
+  // Test için script devre dışı, statik kartlar kullanılacak
+  // loadFileData('games.xlsx');
 });
