@@ -1,88 +1,368 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Professional Game Development - Steep Games">
   <meta name="keywords" content="Roblox, Game Development, Steep Games, HTML, CSS, JavaScript">
   <meta name="author" content="Steep Games">
   <title>Steep Games - Roblox Innovators</title>
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css">
+
+  <!-- AOS (scroll animations) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a2d9b3f3f1.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --dark: #0b0f14;
+      --dark-light: rgba(15,20,25,0.85);
+      --primary: #0ea5a4; /* teal-ish */
+      --primary-dark: #0b7189;
+      --secondary: #7c3aed; /* violet */
+      --accent: #ffcc00;
+      --accent-hover: #ffd84d;
+      --glass-bg: rgba(255,255,255,0.03);
+    }
+
+    html,body { font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    body { background: linear-gradient(180deg,#061018 0%, #071020 100%); color: #e6eef6; }
+
+    /* Hero gradient anim */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-gradient {
+      background-size: 200% 200%;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    /* slow pulse for logo text */
+    @keyframes pulse-slow { 0%{opacity:1}50%{opacity:.6}100%{opacity:1} }
+    .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+    /* fancy fade in + up */
+    .animate-fade-in-down { transform: translateY(0); opacity:1; transition:all .7s cubic-bezier(.2,.8,.2,1) }
+    .fade-hidden { transform: translateY(18px); opacity:0; }
+
+    /* hero button */
+    .hero-button {
+      box-shadow: 0 8px 30px rgba(124,58,237,0.08), inset 0 -2px 0 rgba(0,0,0,0.12);
+      transition: transform .28s ease, box-shadow .28s ease, background-color .2s;
+    }
+    .hero-button:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 18px 50px rgba(124,58,237,0.18);
+    }
+
+    /* glass navbar */
+    .nav-glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* card hover glow & tilt */
+    .game-card {
+      transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .45s;
+      transform-origin: center;
+    }
+    .game-card:hover {
+      transform: translateY(-14px) rotate(-1deg) scale(1.02);
+      box-shadow: 0 30px 60px rgba(2,6,23,0.6);
+    }
+
+    /* image overlay */
+    .card-img {
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 0.65rem;
+      transition: transform .6s ease;
+    }
+    .game-card:hover .card-img { transform: scale(1.06) rotate(0.6deg); filter: saturate(1.06); }
+
+    /* subtle glow for accent */
+    .text-accent { color: var(--accent); text-shadow: 0 2px 12px rgba(255,204,0,0.07); }
+
+    /* scroll-to-top */
+    #scrollTopBtn{
+      position: fixed; right: 20px; bottom: 26px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-hover));
+      color: #07101a; padding: 12px 14px;
+      border-radius: 999px; box-shadow: 0 12px 30px rgba(255,204,0,0.16);
+      display:flex; align-items:center; justify-content:center;
+      z-index:60; transform: translateY(10px); transition:all .25s;
+    }
+    #scrollTopBtn:hover { transform: translateY(-4px) scale(1.02); }
+
+    /* 3D rotating logo (simple) */
+    .logo-3d {
+      width: 96px; height: 96px; margin: 0 auto;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg,var(--primary),var(--secondary));
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(16,24,40,0.6), inset 0 -6px 18px rgba(0,0,0,0.2);
+      transform-style: preserve-3d;
+      animation: logoRotate 10s linear infinite;
+    }
+    @keyframes logoRotate {
+      0%{ transform: rotateX(12deg) rotateY(0) rotateZ(0) }
+      50%{ transform: rotateX(12deg) rotateY(180deg) rotateZ(6deg) }
+      100%{ transform: rotateX(12deg) rotateY(360deg) rotateZ(0) }
+    }
+    .logo-3d img { width:70%; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45)); }
+
+    /* utility tweaks for mobile nav */
+    .mobile-menu { transition: max-height .35s ease, opacity .35s ease; overflow: hidden; }
+
+    /* small helpers */
+    a { text-decoration: none; }
+    .container { max-width: 1160px; padding-left: 1rem; padding-right: 1rem; margin: 0 auto; }
+
+    /* responsive tweaks */
+    @media (max-width:768px){
+      .text-6xl { font-size: 2.25rem; }
+      .text-7xl { font-size: 2.6rem; }
+      .logo-3d { width:76px; height:76px; border-radius:14px; }
+    }
+  </style>
 </head>
-<body class="bg-dark font-sans text-white overflow-x-hidden">
-  <!-- Navbar -->
-  <nav class="bg-dark-light text-white p-6 fixed w-full top-0 z-50 shadow-lg">
-    <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-3xl font-bold animate-pulse-slow">Steep Games</h1>
-      <ul class="flex space-x-8">
-        <li><a href="#home" class="hover:text-accent transition-colors duration-300">Home</a></li>
-        <li><a href="#games" class="hover:text-accent transition-colors duration-300">Games</a></li>
-        <li><a href="#about" class="hover:text-accent transition-colors duration-300">About</a></li>
-        <li><a href="#contact" class="hover:text-accent transition-colors duration-300">Contact</a></li>
+
+<body class="overflow-x-hidden bg-[radial-gradient(ellipse_at_top_left,_#07101a,_#04060a)]">
+  <!-- NAVBAR -->
+  <nav class="fixed w-full top-0 z-50 nav-glass">
+    <div class="container flex items-center justify-between py-4">
+      <div class="flex items-center gap-4">
+        <div class="logo-3d">
+          <!-- Replace src with your logo if you have a transparent svg/png -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Roblox_2017_logo.svg" alt="Steep Logo">
+        </div>
+        <div class="ml-2">
+          <h1 class="text-white font-bold text-xl leading-none animate-pulse-slow">Steep Games</h1>
+          <p class="text-gray-300 text-xs -mt-1">Roblox Innovators</p>
+        </div>
+      </div>
+
+      <!-- desktop links -->
+      <ul class="hidden md:flex items-center gap-8 text-sm">
+        <li><a href="#home" class="hover:text-accent transition-colors duration-250">Home</a></li>
+        <li><a href="#games" class="hover:text-accent transition-colors duration-250">Games</a></li>
+        <li><a href="#about" class="hover:text-accent transition-colors duration-250">About</a></li>
+        <li><a href="#contact" class="hover:text-accent transition-colors duration-250">Contact</a></li>
+        <li><a href="mailto:desteksteep@gmail.com" class="ml-2 bg-accent text-[0.95rem] px-4 py-2 rounded-full font-semibold hover:brightness-105 transition">Email</a></li>
       </ul>
+
+      <!-- mobile hamburger -->
+      <div class="md:hidden flex items-center">
+        <button id="hamburgerBtn" aria-label="Open menu" class="p-2">
+          <i class="fa-solid fa-bars text-gray-200 text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- mobile menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden bg-[#07101a]/80 border-t border-white/3 px-6">
+      <div class="flex flex-col gap-4 py-4">
+        <a href="#home" class="text-white py-2">Home</a>
+        <a href="#games" class="text-white py-2">Games</a>
+        <a href="#about" class="text-white py-2">About</a>
+        <a href="#contact" class="text-white py-2">Contact</a>
+        <a href="mailto:desteksteep@gmail.com" class="py-2 inline-block w-max bg-accent px-4 py-[6px] rounded-full font-semibold mt-1">Email</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-dark via-primary to-secondary text-white animate-gradient">
-    <div class="container mx-auto text-center animate-fade-in-down">
-      <h2 class="text-6xl md:text-7xl font-bold mb-6 animate-bounce-in">Welcome to Steep Games!</h2>
-      <p class="text-2xl md:text-3xl mb-8 animate-fade-in delay-200">Crafting cutting-edge Roblox experiences.</p>
-      <a href="#games" class="hero-button bg-accent text-dark px-8 py-4 rounded-full font-semibold hover:bg-accent-hover hover:scale-110 transition-all duration-300 animate-fade-in delay-300">Explore Our Games</a>
-    </div>
-  </section>
+  <!-- HERO -->
+  <section id="home" class="min-h-screen flex items-center justify-center animate-gradient" style="background-image: linear-gradient(120deg,var(--primary), #3b82f6 30%, var(--secondary) 70%);">
+    <div class="container text-center py-36">
+      <h2 class="text-6xl md:text-7xl font-extrabold mb-4 drop-shadow-xl">Welcome to <span class="text-accent">Steep Games</span>!</h2>
+      <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">Crafting cutting-edge Roblox experiences — <span class="text-white/90">immersive</span>, <span class="text-white/90">polished</span>, <span class="text-white/90">fun</span>.</p>
 
-  <!-- Games Section -->
-  <section id="games" class="py-24 bg-dark-light">
-    <div class="container mx-auto">
-      <h2 class="text-5xl font-bold text-center mb-12 text-white animate-fade-in-down">Our Games</h2>
-      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div class="bg-dark p-6 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 transform hover:rotate-2">
-          <h3 class="text-2xl font-semibold mb-4 text-accent">Non Human</h3>
-          <p class="text-gray-300 mb-6">Trapped in the darkness, you must survive the night but you're not alone.</p>
-          <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="bg-accent text-dark px-5 py-2 rounded-full hover:bg-accent-hover hover:scale-105 transition-all duration-300">Play Now</a>
+      <div class="flex items-center justify-center gap-4">
+        <a href="#games" class="hero-button bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] px-8 py-4 rounded-full font-semibold hover:scale-105 transition-all duration-300">Explore Our Games</a>
+        <a href="#about" class="px-6 py-3 rounded-full border border-white/6 text-white/90 hover:bg-white/6 transition">Learn More</a>
+      </div>
+
+      <!-- small stat cards -->
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Players</p>
+          <p class="text-2xl font-bold">+120k</p>
         </div>
-        <div class="bg-dark p-6 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 transform hover:rotate-2">
-          <h3 class="text-2xl font-semibold mb-4 text-accent">Warrior Reigns</h3>
-          <p class="text-gray-300 mb-6">Collect powerful necklaces, unlock unique skills, and grind your way to level max through epic battles, quests, and fishing adventures.</p>
-          <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="bg-accent text-dark px-5 py-2 rounded-full hover:bg-accent-hover hover:scale-105 transition-all duration-300">Play Now</a>
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Games</p>
+          <p class="text-2xl font-bold">3</p>
         </div>
-        <div class="bg-dark p-6 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 transform hover:rotate-2">
-          <h3 class="text-2xl font-semibold mb-4 text-accent">Soon!</h3>
-          <p class="text-gray-300 mb-6">Not ready yet.</p>
-          <a href="https://www.roblox.com" target="_blank" class="bg-accent text-dark px-5 py-2 rounded-full hover:bg-accent-hover hover:scale-105 transition-all duration-300">Play Now</a>
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Years</p>
+          <p class="text-2xl font-bold">2</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-24 bg-gradient-to-br from-dark to-dark-light">
-    <div class="container mx-auto text-center">
-      <h2 class="text-5xl font-bold mb-10 text-white animate-fade-in-down">About Us</h2>
-      <p class="text-xl max-w-3xl mx-auto text-gray-300 animate-fade-in delay-200">Steep Games is a passionate team dedicated to crafting high-quality Roblox games that inspire and entertain players worldwide with innovative designs.</p>
+  <!-- GAMES -->
+  <section id="games" class="py-24 bg-[#04060a]">
+    <div class="container">
+      <h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-12" data-aos="fade-up">Our Games</h2>
+      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="100">
+          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=1200&q=60" alt="Non Human cover">
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Non Human</h3>
+          <p class="text-gray-300 mb-4">Trapped in the darkness, you must survive the night but you're not alone.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Details</a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="200">
+          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1628495191521-6e2f4f1f0a54?auto=format&fit=crop&w=1200&q=60" alt="Warrior Reigns cover">
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Warrior Reigns</h3>
+          <p class="text-gray-300 mb-4">Collect powerful necklaces, unlock unique skills, and grind your way to level max through epic battles, quests, and fishing.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Discord</a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative mb-4">
+            <img class="card-img" src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1200&q=60" alt="Soon">
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/40 to-transparent flex items-center justify-center">
+              <span class="text-white font-bold text-xl">Coming Soon</span>
+            </div>
+          </div>
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Soon!</h3>
+          <p class="text-gray-300 mb-4">We're cooking something new — stay tuned for the next big drop.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Wishlist</a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-24 bg-gradient-to-tr from-primary-dark via-primary to-secondary">
-    <div class="container mx-auto text-center">
-      <h2 class="text-5xl font-bold mb-10 text-white animate-fade-in-down">Get in Touch</h2>
-      <p class="text-xl mb-6 text-gray-300 animate-fade-in delay-200">Ready to collaborate? Let’s connect!</p>
-      <a href="mailto:desteksteep@gmail.com" class="bg-accent text-dark px-8 py-4 rounded-full font-semibold hover:bg-accent-hover hover:scale-110 transition-all duration-300 animate-fade-in delay-300">Send an Email</a>
+  <!-- ABOUT -->
+  <section id="about" class="py-24 bg-gradient-to-b from-[#07101a] to-[#04060a]">
+    <div class="container text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">About Us</h2>
+      <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">
+        Steep Games is a passionate indie studio focused on polished Roblox experiences. We combine strong design, fun systems and community-driven updates to create games players love.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="200">
+          <h4 class="font-bold text-lg">Design</h4>
+          <p class="text-gray-300 mt-2 text-sm">UI-first approach, readable HUDs and crisp icons.</p>
+        </div>
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="300">
+          <h4 class="font-bold text-lg">Systems</h4>
+          <p class="text-gray-300 mt-2 text-sm">Balanced progression and enjoyable loops.</p>
+        </div>
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="400">
+          <h4 class="font-bold text-lg">Community</h4>
+          <p class="text-gray-300 mt-2 text-sm">Feedback-led updates and events.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-dark-light py-6">
-    <div class="container mx-auto text-center">
-      <p class="text-gray-400 animate-fade-in">© 2025 Steep Games. All rights reserved.</p>
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 bg-gradient-to-tr from-[#07202a] via-[#0b3b4f] to-[#07204a]">
+    <div class="container text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white" data-aos="fade-up">Get in Touch</h2>
+      <p class="text-lg text-gray-300 mb-6" data-aos="fade-up" data-aos-delay="100">Ready to collaborate or have a question? We reply quickly.</p>
+
+      <a href="mailto:desteksteep@gmail.com" class="inline-block px-8 py-4 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] font-semibold text-[#07101a] shadow-lg hover:scale-105 transition" data-aos="fade-up" data-aos-delay="200">Send an Email</a>
+
+      <div class="flex justify-center gap-4 mt-8" data-aos="fade-up" data-aos-delay="300">
+        <a href="#" class="text-gray-300 hover:text-white"><i class="fa-brands fa-discord fa-lg"></i></a>
+        <a href="#" class="text-gray-300 hover:text-white"><i class="fa-brands fa-twitter fa-lg"></i></a>
+        <a href="#" class="text-gray-300 hover:text-white"><i class="fa-brands fa-youtube fa-lg"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#02040a] py-6">
+    <div class="container text-center">
+      <p class="text-gray-400">© 2025 Steep Games. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="script.js"></script>
+  <!-- Scroll to top -->
+  <button id="scrollTopBtn" title="Yukarı çık" style="display:none;">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // AOS init
+    AOS.init({ once: true, duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)' });
+
+    // Mobile menu toggle
+    const hamb = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let open = false;
+    mobileMenu.style.maxHeight = '0px';
+    mobileMenu.style.opacity = '0';
+    hamb.addEventListener('click', () => {
+      open = !open;
+      if(open){
+        mobileMenu.style.maxHeight = '320px';
+        mobileMenu.style.opacity = '1';
+        hamb.innerHTML = '<i class="fa-solid fa-xmark text-gray-200 text-lg"></i>';
+      } else {
+        mobileMenu.style.maxHeight = '0px';
+        mobileMenu.style.opacity = '0';
+        hamb.innerHTML = '<i class="fa-solid fa-bars text-gray-200 text-lg"></i>';
+      }
+    });
+
+    // Smooth reveal: add fade classes on load (for non-AOS items)
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade-in-down').forEach(el => el.classList.remove('fade-hidden'));
+    });
+
+    // Scroll to top button logic
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 400){
+        scrollBtn.style.display = 'flex';
+      } else {
+        scrollBtn.style.display = 'none';
+      }
+    });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Optional: tiny parallax on hero for mouse move (subtle)
+    const hero = document.getElementById('home');
+    if(hero){
+      hero.addEventListener('mousemove', (e) => {
+        const {innerWidth, innerHeight} = window;
+        const x = (e.clientX - innerWidth/2) / (innerWidth/12);
+        const y = (e.clientY - innerHeight/2) / (innerHeight/12);
+        hero.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        clearTimeout(hero._t);
+        hero._t = setTimeout(() => hero.style.transform = '', 100);
+      });
+    }
+  </script>
 </body>
 </html>
