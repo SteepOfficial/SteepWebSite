@@ -1,266 +1,260 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script>
-        let socket;
-        let currentChannelId = 1;
-        let currentUser = '';
-        let isTyping = false;
-        let typingTimeout;
+<script>
+    let socket;
+    let currentChannelId = 1;
+    let currentUser = '';
+    let isTyping = false;
+    let typingTimeout;
 
-        // Show/Hide Pages
-        function showLogin() {
-            document.getElementById('loginPage').style.display = 'block';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('chatPage').style.display = 'none';
-        }
+    // Show/Hide Pages
+    function showLogin() {
+        document.getElementById('loginPage').style.display = 'block';
+        document.getElementById('registerPage').style.display = 'none';
+        document.getElementById('chatPage').style.display = 'none';
+    }
 
-        function showRegister() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'block';
-            document.getElementById('chatPage').style.display = 'none';
-        }
+    function showRegister() {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('registerPage').style.display = 'block';
+        document.getElementById('chatPage').style.display = 'none';
+    }
 
-        function showChat() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('chatPage').style.display = 'block';
-            initializeSocket();
-        }
+    function showChat() {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('registerPage').style.display = 'none';
+        document.getElementById('chatPage').style.display = 'block';
+        initializeSocket();
+    }
 
-        // Forms
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
+    // Forms
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
 
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    currentUser = data.username;
-                    document.getElementById('currentUser').textContent = currentUser;
-                    showChat();
-                    loadServers();
-                } else {
-                    showError('loginError', result.error);
-                }
-            } catch (error) {
-                showError('loginError', 'Bağlantı hatası!');
-            }
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-
-            try {
-                const response = await fetch('/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    currentUser = data.username;
-                    document.getElementById('currentUser').textContent = currentUser;
-                    showChat();
-                    loadServers();
-                } else {
-                    showError('registerError', result.error);
-                }
-            } catch (error) {
-                showError('registerError', 'Bağlantı hatası!');
-            }
-        });
-
-        function showError(elementId, message) {
-            const errorEl = document.getElementById(elementId);
-            errorEl.textContent = message;
-            errorEl.style.display = 'block';
-            setTimeout(() => errorEl.style.display = 'none', 5000);
-        }
-
-        // Socket.IO
-        function initializeSocket() {
-            socket = io();
-
-            socket.on('connect', () => {
-                console.log('Bağlandı!');
-                socket.emit('join_channel', { channel_id: currentChannelId });
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
 
-            socket.on('new_message', (data) => {
-                addMessageToChat(data);
-            });
-
-            socket.on('user_typing', (data) => {
-                showTypingIndicator(data.username);
-            });
-
-            socket.on('user_joined', (data) => {
-                console.log(data.message);
-            });
-        }
-
-        // Chat Functions
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+            const result = await response.json();
+            
+            if (result.success) {
+                currentUser = data.username;
+                document.getElementById('currentUser').textContent = currentUser;
+                showChat();
+                loadServers();
             } else {
-                // Typing indicator
-                if (!isTyping) {
-                    isTyping = true;
-                    socket.emit('typing', { channel_id: currentChannelId });
-                }
-                clearTimeout(typingTimeout);
-                typingTimeout = setTimeout(() => {
-                    isTyping = false;
-                }, 1000);
+                showError('loginError', result.error);
             }
+        } catch (error) {
+            showError('loginError', 'Bağlantı hatası!');
         }
+    });
 
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (message) {
-                socket.emit('send_message', {
-                    channel_id: currentChannelId,
-                    content: message
-                });
-                input.value = '';
-            }
-        }
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
 
-        function addMessageToChat(messageData) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageEl = document.createElement('div');
-            messageEl.className = 'message';
-            
-            const time = new Date(messageData.timestamp).toLocaleTimeString('tr-TR', {
-                hour: '2-digit',
-                minute: '2-digit'
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
 
-            messageEl.innerHTML = `
-                <div class="message-header">
-                    <span class="message-author">${messageData.username}</span>
-                    <span class="message-time">${time}</span>
-                </div>
-                <div class="message-content">${messageData.content}</div>
-            `;
-
-            const typingIndicator = document.getElementById('typingIndicator');
-            chatMessages.insertBefore(messageEl, typingIndicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function showTypingIndicator(username) {
-            const indicator = document.getElementById('typingIndicator');
-            indicator.textContent = `${username} yazıyor...`;
-            indicator.style.display = 'block';
+            const result = await response.json();
             
-            setTimeout(() => {
-                indicator.style.display = 'none';
-            }, 2000);
-        }
-
-        // Load data
-        async function loadServers() {
-            // For now, just show default server
-            const serverList = document.getElementById('serverList');
-            serverList.innerHTML = `
-                <div class="server-item active" onclick="selectServer(1)">
-                    🦭 Genel
-                </div>
-            `;
-            
-            loadChannels(1);
-        }
-
-        async function loadChannels(serverId) {
-            const channelList = document.getElementById('channelList');
-            channelList.innerHTML = `
-                <div class="channel-item active" onclick="selectChannel(1, 'genel')">
-                    # genel
-                </div>
-                <div class="channel-item" onclick="selectChannel(2, 'random')">
-                    # random
-                </div>
-                <div class="channel-item" onclick="selectChannel(3, 'oyun')">
-                    # oyun
-                </div>
-            `;
-            
-            loadMessages(1);
-        }
-
-        async function loadMessages(channelId) {
-            // Load existing messages
-            try {
-                const response = await fetch(`/api/channels/${channelId}/messages`);
-                const messages = await response.json();
-                
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.innerHTML = '<div class="typing-indicator" id="typingIndicator"></div>';
-                
-                messages.forEach(message => {
-                    addMessageToChat(message);
-                });
-            } catch (error) {
-                console.error('Mesajlar yüklenemedi:', error);
+            if (result.success) {
+                currentUser = data.username;
+                document.getElementById('currentUser').textContent = currentUser;
+                showChat();
+                loadServers();
+            } else {
+                showError('registerError', result.error);
             }
+        } catch (error) {
+            showError('registerError', 'Bağlantı hatası!');
+        }
+    });
+
+    function showError(elementId, message) {
+        const errorEl = document.getElementById(elementId);
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+        setTimeout(() => errorEl.style.display = 'none', 5000);
+    }
+
+    // Socket.IO
+    function initializeSocket() {
+        if (socket) {
+            socket.removeAllListeners();
+            socket.disconnect();
         }
 
-        function selectServer(serverId) {
-            // Update server selection
-            document.querySelectorAll('.server-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Load channels for the selected server
-            loadChannels(serverId);
-        }
+        socket = io();
 
-        function selectChannel(channelId, channelName) {
-            // Update channel selection
-            document.querySelectorAll('.channel-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update current channel
-            currentChannelId = channelId;
-            document.getElementById('currentChannel').textContent = `# ${channelName}`;
-            
-            // Join channel and load messages
-            if (socket) {
-                socket.emit('join_channel', { channel_id: currentChannelId });
-            }
-            loadMessages(currentChannelId);
-        }
-
-        function logout() {
-            // Disconnect socket and show login page
-            if (socket) {
-                socket.disconnect();
-            }
-            showLogin();
-            currentUser = '';
-            document.getElementById('currentUser').textContent = '';
-        }
-
-        // Initially show login page
-        document.addEventListener('DOMContentLoaded', () => {
-            showLogin();
+        socket.on('connect', () => {
+            console.log('Bağlandı!');
+            socket.emit('join_channel', { channel_id: currentChannelId });
         });
-    </script>
+
+        socket.on('new_message', (data) => {
+            addMessageToChat(data);
+        });
+
+        socket.on('user_typing', (data) => {
+            showTypingIndicator(data.username);
+        });
+
+        socket.on('user_joined', (data) => {
+            console.log(data.message);
+        });
+    }
+
+    // Chat Functions
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        } else {
+            if (!isTyping) {
+                isTyping = true;
+                socket.emit('typing', { channel_id: currentChannelId });
+            }
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                isTyping = false;
+            }, 1000);
+        }
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const message = input.value.trim();
+        
+        if (message) {
+            socket.emit('send_message', {
+                channel_id: currentChannelId,
+                content: message
+            });
+            input.value = '';
+        }
+    }
+
+    function addMessageToChat(messageData) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageEl = document.createElement('div');
+        messageEl.className = 'message';
+        
+        const time = messageData.timestamp 
+            ? new Date(messageData.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
+            : '';
+
+        messageEl.innerHTML = `
+            <div class="message-header">
+                <span class="message-author">${messageData.username}</span>
+                <span class="message-time">${time}</span>
+            </div>
+            <div class="message-content">${messageData.content}</div>
+        `;
+
+        const typingIndicator = document.getElementById('typingIndicator');
+        chatMessages.insertBefore(messageEl, typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTypingIndicator(username) {
+        const indicator = document.getElementById('typingIndicator');
+        indicator.textContent = `${username} yazıyor...`;
+        indicator.style.display = 'block';
+        
+        setTimeout(() => {
+            indicator.style.display = 'none';
+        }, 2000);
+    }
+
+    // Load data
+    async function loadServers() {
+        const serverList = document.getElementById('serverList');
+        serverList.innerHTML = `
+            <div class="server-item active" onclick="selectServer(1, event)">
+                🦭 Genel
+            </div>
+        `;
+        
+        loadChannels(1);
+    }
+
+    async function loadChannels(serverId) {
+        const channelList = document.getElementById('channelList');
+        channelList.innerHTML = `
+            <div class="channel-item active" onclick="selectChannel(1, 'genel', event)">
+                # genel
+            </div>
+            <div class="channel-item" onclick="selectChannel(2, 'random', event)">
+                # random
+            </div>
+            <div class="channel-item" onclick="selectChannel(3, 'oyun', event)">
+                # oyun
+            </div>
+        `;
+        
+        loadMessages(1);
+    }
+
+    async function loadMessages(channelId) {
+        try {
+            const response = await fetch(`/api/channels/${channelId}/messages`);
+            const messages = await response.json();
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '<div class="typing-indicator" id="typingIndicator"></div>';
+            
+            messages.forEach(message => {
+                addMessageToChat(message);
+            });
+        } catch (error) {
+            console.error('Mesajlar yüklenemedi:', error);
+        }
+    }
+
+    function selectServer(serverId, event) {
+        document.querySelectorAll('.server-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        loadChannels(serverId);
+    }
+
+    function selectChannel(channelId, channelName, event) {
+        document.querySelectorAll('.channel-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        currentChannelId = channelId;
+        document.getElementById('currentChannel').textContent = `# ${channelName}`;
+        
+        if (socket) {
+            socket.emit('join_channel', { channel_id: currentChannelId });
+        }
+        loadMessages(currentChannelId);
+    }
+
+    function logout() {
+        if (socket) {
+            socket.disconnect();
+        }
+        showLogin();
+        currentUser = '';
+        document.getElementById('currentUser').textContent = '';
+    }
+
+    // Initially show login page
+    document.addEventListener('DOMContentLoaded', () => {
+        showLogin();
+    });
+</script>
