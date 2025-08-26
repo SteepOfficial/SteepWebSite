@@ -1,258 +1,350 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-<script>
-    let socket;
-    let currentChannelId = 1;
-    let currentUser = '';
-    let isTyping = false;
-    let typingTimeout;
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Professional Game Development - Steep Games">
+  <meta name="keywords" content="Roblox, Game Development, Steep Games, HTML, CSS, JavaScript">
+  <meta name="author" content="Steep Games">
+  <title>Steep Games - Roblox Innovators</title>
 
-    // Show/Hide Pages
-    function showLogin() {
-        document.getElementById('loginPage').style.display = 'block';
-        document.getElementById('registerPage').style.display = 'none';
-        document.getElementById('chatPage').style.display = 'none';
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS (scroll animations) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a2d9b3f3f1.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --dark: #0b0f14;
+      --dark-light: rgba(15,20,25,0.85);
+      --primary: #0ea5a4; /* teal-ish */
+      --primary-dark: #0b7189;
+      --secondary: #7c3aed; /* violet */
+      --accent: #ffcc00;
+      --accent-hover: #ffd84d;
+      --glass-bg: rgba(255,255,255,0.03);
     }
 
-    function showRegister() {
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('registerPage').style.display = 'block';
-        document.getElementById('chatPage').style.display = 'none';
+    html,body { font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    body { background: linear-gradient(180deg,#061018 0%, #071020 100%); color: #e6eef6; }
+
+    /* Hero gradient anim */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-gradient {
+      background-size: 200% 200%;
+      animation: gradientShift 10s ease infinite;
     }
 
-    function showChat() {
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('registerPage').style.display = 'none';
-        document.getElementById('chatPage').style.display = 'block';
-        initializeSocket();
+    /* slow pulse for logo text */
+    @keyframes pulse-slow { 0%{opacity:1}50%{opacity:.6}100%{opacity:1} }
+    .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+    /* fancy fade in + up */
+    .animate-fade-in-down { transform: translateY(0); opacity:1; transition:all .7s cubic-bezier(.2,.8,.2,1) }
+    .fade-hidden { transform: translateY(18px); opacity:0; }
+
+    /* hero button */
+    .hero-button {
+      box-shadow: 0 8px 30px rgba(124,58,237,0.08), inset 0 -2px 0 rgba(0,0,0,0.12);
+      transition: transform .28s ease, box-shadow .28s ease, background-color .2s;
+    }
+    .hero-button:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 18px 50px rgba(124,58,237,0.18);
     }
 
-    // Forms
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData);
+    /* glass navbar */
+    .nav-glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
 
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+    /* card hover glow & tilt */
+    .game-card {
+      transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .45s;
+      transform-origin: center;
+    }
+    .game-card:hover {
+      transform: translateY(-14px) rotate(-1deg) scale(1.02);
+      box-shadow: 0 30px 60px rgba(2,6,23,0.6);
+    }
 
-            const result = await response.json();
-            
-            if (result.success) {
-                currentUser = data.username;
-                document.getElementById('currentUser').textContent = currentUser;
-                showChat();
-                loadServers();
-            } else {
-                showError('loginError', result.error);
-            }
-        } catch (error) {
-            showError('loginError', 'Bağlantı hatası!');
-        }
+    /* image overlay */
+    .card-img {
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 0.65rem;
+      transition: transform .6s ease;
+    }
+    .game-card:hover .card-img { transform: scale(1.06) rotate(0.6deg); filter: saturate(1.06); }
+
+    /* subtle glow for accent */
+    .text-accent { color: var(--accent); text-shadow: 0 2px 12px rgba(255,204,0,0.07); }
+
+    /* scroll-to-top */
+    #scrollTopBtn{
+      position: fixed; right: 20px; bottom: 26px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-hover));
+      color: #07101a; padding: 12px 14px;
+      border-radius: 999px; box-shadow: 0 12px 30px rgba(255,204,0,0.16);
+      display:flex; align-items:center; justify-content:center;
+      z-index:60; transform: translateY(10px); transition:all .25s;
+      cursor:pointer;
+    }
+    #scrollTopBtn:hover { transform: translateY(-4px) scale(1.02); }
+
+    /* 3D rotating logo (simple) */
+    .logo-3d {
+      width: 96px; height: 96px; margin: 0 auto;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg,var(--primary),var(--secondary));
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(16,24,40,0.6), inset 0 -6px 18px rgba(0,0,0,0.2);
+      transform-style: preserve-3d;
+      animation: logoRotate 10s linear infinite;
+    }
+    @keyframes logoRotate {
+      0%{ transform: rotateX(12deg) rotateY(0) rotateZ(0) }
+      50%{ transform: rotateX(12deg) rotateY(180deg) rotateZ(6deg) }
+      100%{ transform: rotateX(12deg) rotateY(360deg) rotateZ(0) }
+    }
+    .logo-3d img { width:70%; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45)); }
+
+    /* utility tweaks for mobile nav */
+    .mobile-menu { transition: max-height .35s ease, opacity .35s ease; overflow: hidden; }
+
+    /* small helpers */
+    a { text-decoration: none; }
+    .container { max-width: 1160px; padding-left: 1rem; padding-right: 1rem; margin: 0 auto; }
+
+    /* responsive tweaks */
+    @media (max-width:768px){
+      .text-6xl { font-size: 2.25rem; }
+      .text-7xl { font-size: 2.6rem; }
+      .logo-3d { width:76px; height:76px; border-radius:14px; }
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden bg-[radial-gradient(ellipse_at_top_left,#07101a,#04060a)]">
+  <!-- NAVBAR -->
+  <nav class="fixed w-full top-0 z-50 nav-glass">
+    <div class="container flex items-center justify-between py-4">
+      <div class="flex items-center gap-4">
+        <div class="logo-3d">
+          <!-- Replace src with your logo if you have a transparent svg/png -->
+          <img src="https://raw.githubusercontent.com/SteepOfficial/SteepWebSite/refs/heads/main/SteepGamesLogoNoBackground.png" alt="Steep Logo">
+        </div>
+        <div class="ml-2">
+          <h1 class="text-white font-bold text-xl leading-none animate-pulse-slow">Steep Games</h1>
+          <p class="text-gray-300 text-xs -mt-1">Roblox Innovators</p>
+        </div>
+      </div>
+
+      <!-- desktop links -->
+      <ul class="hidden md:flex items-center gap-8 text-sm">
+        <li><a href="#home" class="hover:text-accent transition-colors duration-250">Home</a></li>
+        <li><a href="#games" class="hover:text-accent transition-colors duration-250">Games</a></li>
+        <li><a href="#about" class="hover:text-accent transition-colors duration-250">About</a></li>
+        <li><a href="#contact" class="hover:text-accent transition-colors duration-250">Contact</a></li>
+        <li><a href="mailto:desteksteep@gmail.com" class="ml-2 bg-accent text-[0.95rem] px-4 py-2 rounded-full font-semibold hover:brightness-105 transition">Email</a></li>
+      </ul>
+
+      <!-- mobile hamburger -->
+      <div class="md:hidden flex items-center">
+        <button id="hamburgerBtn" aria-label="Open menu" class="p-2">
+          <i class="fa-solid fa-bars text-gray-200 text-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- mobile menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden bg-[#07101a]/80 border-t border-white/3 px-6">
+      <div class="flex flex-col gap-4 py-4">
+        <a href="#home" class="text-white py-2">Home</a>
+        <a href="#games" class="text-white py-2">Games</a>
+        <a href="#about" class="text-white py-2">About</a>
+        <a href="#contact" class="text-white py-2">Contact</a>
+        <a href="mailto:desteksteep@gmail.com" class="py-2 inline-block w-max bg-accent px-4 py-[6px] rounded-full font-semibold mt-1">Email</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="min-h-screen flex items-center justify-center animate-gradient" style="background-image: linear-gradient(120deg,var(--primary), #3b82f6 30%, var(--secondary) 70%);">
+    <div class="container text-center py-36">
+      <h2 class="text-6xl md:text-7xl font-extrabold mb-4 drop-shadow-xl">Welcome to <span class="text-accent">Steep Games</span>!</h2>
+      <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">Crafting cutting-edge Roblox experiences — <span class="text-white/90">immersive</span>, <span class="text-white/90">polished</span>, <span class="text-white/90">fun</span>.</p>
+
+      <div class="flex items-center justify-center gap-4">
+        <a href="#games" class="hero-button bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] px-8 py-4 rounded-full font-semibold hover:scale-105 transition-all duration-300">Explore Our Games</a>
+        <a href="#about" class="px-6 py-3 rounded-full border border-white/6 text-white/90 hover:bg-white/6 transition">Learn More</a>
+      </div>
+
+      <!-- small stat cards -->
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Players</p>
+          <p class="text-2xl font-bold">+120k</p>
+        </div>
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Games</p>
+          <p class="text-2xl font-bold">3</p>
+        </div>
+        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
+          <p class="text-sm text-gray-300">Years</p>
+          <p class="text-2xl font-bold">3</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section id="games" class="py-24 bg-[#04060a]">
+    <div class="container">
+      <h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-12" data-aos="fade-up">Our Games</h2>
+      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="100">
+          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=1200&q=60" alt="Non Human cover">
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Non Human</h3>
+          <p class="text-gray-300 mb-4">Trapped in the darkness, you must survive the night but you're not alone.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Details</a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="200">
+          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1628495191521-6e2f4f1f0a54?auto=format&fit=crop&w=1200&q=60" alt="Warrior Reigns cover">
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Warrior Reigns</h3>
+          <p class="text-gray-300 mb-4">Collect powerful necklaces, unlock unique skills, and grind your way to level max through epic battles, quests, and fishing.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Discord</a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative mb-4">
+            <img class="card-img" src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1200&q=60" alt="Soon">
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/40 to-transparent flex items-center justify-center">
+              <span class="text-white font-bold text-xl">Coming Soon</span>
+            </div>
+          </div>
+          <h3 class="text-2xl font-semibold mb-2 text-accent">Soon!</h3>
+          <p class="text-gray-300 mb-4">We're cooking something new — stay tuned for the next big drop.</p>
+          <div class="flex gap-3">
+            <a href="https://www.roblox.com" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
+            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Wishlist</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-24 bg-gradient-to-b from-[#07101a] to-[#04060a]">
+    <div class="container text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">About Us</h2>
+      <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">
+        Steep Games is a passionate indie studio focused on polished Roblox experiences. We combine strong design, fun systems and community-driven updates to create games players love.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="200">
+          <h4 class="font-bold text-lg">Design</h4>
+          <p class="text-gray-300 mt-2 text-sm">UI-first approach, readable HUDs and crisp icons.</p>
+        </div>
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="300">
+          <h4 class="font-bold text-lg">Systems</h4>
+          <p class="text-gray-300 mt-2 text-sm">Balanced gameplay with unique mechanics and smooth controls.</p>
+        </div>
+        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="400">
+          <h4 class="font-bold text-lg">Community</h4>
+          <p class="text-gray-300 mt-2 text-sm">Active feedback loops and regular updates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 bg-[#07101a] text-center text-gray-300">
+    <div class="container max-w-lg mx-auto">
+      <h2 class="text-4xl font-bold mb-6" data-aos="fade-up">Get in Touch</h2>
+      <p class="mb-8" data-aos="fade-up" data-aos-delay="100">Have questions or want to collaborate? Email us anytime.</p>
+
+      <a href="mailto:desteksteep@gmail.com" class="inline-block px-8 py-3 bg-accent text-[#07101a] font-semibold rounded-full hover:brightness-110 transition" data-aos="fade-up" data-aos-delay="200">
+        Email Us
+      </a>
+    </div>
+  </section>
+
+  <!-- SCROLL TO TOP BUTTON -->
+  <button id="scrollTopBtn" aria-label="Scroll to top" title="Scroll to top" style="display:none;">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Initialize AOS animations
+    AOS.init({
+      once: true,
+      duration: 700,
+      easing: 'cubic-bezier(.2,.8,.2,1)'
     });
 
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData);
-
-        try {
-            const response = await fetch('/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            
-            if (result.success) {
-                currentUser = data.username;
-                document.getElementById('currentUser').textContent = currentUser;
-                showChat();
-                loadServers();
-            } else {
-                showError('registerError', result.error);
-            }
-        } catch (error) {
-            showError('registerError', 'Bağlantı hatası!');
-        }
+    // Mobile menu toggle
+    const hamb = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let open = false;
+    mobileMenu.style.maxHeight = '0px';
+    mobileMenu.style.opacity = '0';
+    hamb.addEventListener('click', () => {
+      open = !open;
+      if(open){
+        mobileMenu.style.maxHeight = '320px';
+        mobileMenu.style.opacity = '1';
+        hamb.innerHTML = '<i class="fa-solid fa-xmark text-gray-200 text-lg"></i>';
+      } else {
+        mobileMenu.style.maxHeight = '0px';
+        mobileMenu.style.opacity = '0';
+        hamb.innerHTML = '<i class="fa-solid fa-bars text-gray-200 text-lg"></i>';
+      }
     });
 
-    function showError(elementId, message) {
-        const errorEl = document.getElementById(elementId);
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
-        setTimeout(() => errorEl.style.display = 'none', 5000);
-    }
+    // Smooth reveal for fade-in elements on load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.animate-fade-in-down').forEach(el => el.classList.remove('fade-hidden'));
+    });
 
-    // Socket.IO
-    function initializeSocket() {
-        if (socket) {
-            socket.removeAllListeners();
-            socket.disconnect();
-        }
+    // Scroll to top button show/hide and click
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 400){
+        scrollBtn.style.display = 'flex';
+      } else {
+        scrollBtn.style.display = 'none';
+      }
+    });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        socket = io();
-
-        socket.on('connect', () => {
-            console.log('Bağlandı!');
-            socket.emit('join_channel', { channel_id: currentChannelId });
-        });
-
-        socket.on('new_message', (data) => {
-            addMessageToChat(data);
-        });
-
-        socket.on('user_typing', (data) => {
-            showTypingIndicator(data.username);
-        });
-
-        socket.on('user_joined', (data) => {
-            console.log(data.message);
-        });
-    }
-
-    // Chat Functions
-    function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        } else {
-            if (!isTyping) {
-                isTyping = true;
-                socket.emit('typing', { channel_id: currentChannelId });
-            }
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                isTyping = false;
-            }, 1000);
-        }
-    }
-
-    function sendMessage() {
-        const input = document.getElementById('messageInput');
-        const message = input.value.trim();
-        
-        if (message) {
-            socket.emit('send_message', {
-                channel_id: currentChannelId,
-                content: message
-            });
-            input.value = '';
-        }
-    }
-
-    function addMessageToChat(messageData) {
-        const chatMessages = document.getElementById('chatMessages');
-        const messageEl = document.createElement('div');
-        messageEl.className = 'message';
-        
-        const time = messageData.timestamp 
-            ? new Date(messageData.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
-            : '';
-
-        messageEl.innerHTML = `
-            <div class="message-header">
-                <span class="message-author">${messageData.username}</span>
-                <span class="message-time">${time}</span>
-            </div>
-            <div class="message-content">${messageData.content}</div>
-        `;
-
-        const typingIndicator = document.getElementById('typingIndicator');
-        chatMessages.insertBefore(messageEl, typingIndicator);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function showTypingIndicator(username) {
-        const indicator = document.getElementById('typingIndicator');
-        indicator.textContent = `${username} yazıyor...`;
-        indicator.style.display = 'block';
-        
-        setTimeout(() => {
-            indicator.style.display = 'none';
-        }, 2000);
-    }
-
-    // Load data
-    async function loadServers() {
-        const serverList = document.getElementById('serverList');
-        serverList.innerHTML = `
-            <div class="server-item active" onclick="selectServer(1, event)">
-                🦭 Genel
-            </div>
-        `;
-        
-        loadChannels(1);
-    }
-
-    async function loadChannels(serverId) {
-        const channelList = document.getElementById('channelList');
-        channelList.innerHTML = `
-            <div class="channel-item active" onclick="selectChannel(1, 'genel', event)">
-                # genel
-            </div>
-            <div class="channel-item" onclick="selectChannel(2, 'random', event)">
-                # random
-            </div>
-            <div class="channel-item" onclick="selectChannel(3, 'oyun', event)">
-                # oyun
-            </div>
-        `;
-        
-        loadMessages(1);
-    }
-
-    async function loadMessages(channelId) {
-        try {
-            const response = await fetch(`/api/channels/${channelId}/messages`);
-            const messages = await response.json();
-            
-            const chatMessages = document.getElementById('chatMessages');
-            chatMessages.innerHTML = '<div class="typing-indicator" id="typingIndicator"></div>';
-            
-            messages.forEach(message => {
-                addMessageToChat(message);
-            });
-        } catch (error) {
-            console.error('Mesajlar yüklenemedi:', error);
-        }
-    }
-
-    function selectServer(serverId, event) {
-        document.querySelectorAll('.server-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        loadChannels(serverId);
-    }
-
-    function selectChannel(channelId, channelName, event) {
-        document.querySelectorAll('.channel-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        
-        currentChannelId = channelId;
-        document.getElementById('currentChannel').textContent = `# ${channelName}`;
-        
-        if (socket) {
-            socket.emit('join_channel', { channel_id: currentChannelId });
-        }
-        loadMessages(currentChannelId);
-    }
-
-    function logout() {
-        if (socket) {
-            socket.disconnect();
-        }
-        showLogin();
-        currentUser = '';
-        document.getElementById('currentUser').textContent = '';
-    }
-
-    // Initially show login page
-    showLogin();
-</script>
+    // Mouse follow event REMOVED as requested.
+  </script>
+</body>
+</html>
