@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,13 +8,10 @@
   <meta name="author" content="Steep Games">
   <title>Steep Games - Roblox Innovators</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome for icons -->
   <script src="https://kit.fontawesome.com/a2d9b3f3f1.js" crossorigin="anonymous"></script>
 
   <style>
@@ -340,10 +337,8 @@
 </head>
 
 <body class="bg-animated bg-grid">
-  <!-- Navigation -->
   <nav class="navbar glass-strong">
     <div class="flex items-center justify-between px-6 py-2">
-      <!-- Logo & Brand -->
       <div class="flex items-center gap-4">
         <div class="logo-container">
           <img src="https://raw.githubusercontent.com/SteepOfficial/SteepWebSite/refs/heads/main/SteepGamesLogoNoBackground.png" alt="Steep Logo">
@@ -354,34 +349,30 @@
         </div>
       </div>
 
-      <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
-        <a href="#home" class="text-sm font-medium hover:text-accent-primary transition-colors">Ana Sayfa</a>
-        <a href="#games" class="text-sm font-medium hover:text-accent-primary transition-colors">Oyunlar</a>
-        <a href="#about" class="text-sm font-medium hover:text-accent-primary transition-colors">Hakkımızda</a>
-        <a href="#contact" class="text-sm font-medium hover:text-accent-primary transition-colors">İletişim</a>
-        <a href="mailto:desteksteep@gmail.com" class="btn-primary">Email Gönder</a>
+        <a href="#home" class="text-sm font-medium hover:text-accent-primary transition-colors">Home</a>
+        <a href="#games" class="text-sm font-medium hover:text-accent-primary transition-colors">Games</a>
+        <a href="#about" class="text-sm font-medium hover:text-accent-primary transition-colors">About Us</a>
+        <a href="#contact" class="text-sm font-medium hover:text-accent-primary transition-colors">Contact</a>
+        <a href="mailto:desteksteep@gmail.com" class="btn-primary">Send Email</a>
       </div>
 
-      <!-- Mobile Menu Button -->
       <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors">
         <i class="fas fa-bars text-xl"></i>
       </button>
     </div>
 
-    <!-- Mobile Menu -->
     <div id="mobileMenu" class="md:hidden mt-4 p-4 border-t border-white/10 hidden">
       <div class="flex flex-col gap-4">
-        <a href="#home" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Ana Sayfa</a>
-        <a href="#games" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Oyunlar</a>
-        <a href="#about" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Hakkımızda</a>
-        <a href="#contact" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">İletişim</a>
-        <a href="mailto:desteksteep@gmail.com" class="btn-primary text-center">Email Gönder</a>
+        <a href="#home" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Home</a>
+        <a href="#games" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Games</a>
+        <a href="#about" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">About Us</a>
+        <a href="#contact" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Contact</a>
+        <a href="mailto:desteksteep@gmail.com" class="btn-primary text-center">Send Email</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center relative pt-32">
     <div class="absolute inset-0 overflow-hidden">
       <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-primary/20 rounded-full filter blur-3xl animate-pulse"></div>
@@ -391,109 +382,49 @@
     <div class="container mx-auto px-6 text-center relative z-10">
       <div class="floating">
         <h2 class="text-6xl md:text-7xl font-black mb-6 leading-tight">
-          <span class="text-gradient text-glow">Steep Games</span>'e<br/>
-          <span class="text-white">Hoş Geldin!</span>
+          Welcome to<br/><span class="text-gradient text-glow">Steep Games!</span>
         </h2>
       </div>
       
       <p class="text-xl md:text-2xl text-secondary max-w-4xl mx-auto mb-12 leading-relaxed">
-        Roblox dünyasında <span class="text-accent-primary font-semibold">sürükleyici</span>, 
-        <span class="text-accent-primary font-semibold">kaliteli</span> ve 
-        <span class="text-accent-primary font-semibold">eğlenceli</span> deneyimler yaratıyoruz
+        We create <span class="text-accent-primary font-semibold">immersive</span>, 
+        <span class="text-accent-primary font-semibold">high-quality</span> and 
+        <span class="text-accent-primary font-semibold">fun</span> experiences in the Roblox world
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
         <a href="#games" class="btn-primary inline-flex items-center gap-2">
           <i class="fas fa-gamepad"></i>
-          Oyunlarımızı Keşfet
+          Explore Our Games
         </a>
-        <a href="#about" class="btn-secondary">Daha Fazla Bilgi</a>
+        <a href="#about" class="btn-secondary">Learn More</a>
       </div>
 
-      <!-- Stats -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
         <div class="glass rounded-2xl p-6 hover-glow">
           <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="120000">0</div>
-          <p class="text-secondary">Aktif Oyuncu</p>
+          <p class="text-secondary">Active Players</p>
         </div>
         <div class="glass rounded-2xl p-6 hover-glow">
           <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
-          <p class="text-secondary">Yayınlanan Oyun</p>
+          <p class="text-secondary">Published Games</p>
         </div>
         <div class="glass rounded-2xl p-6 hover-glow">
           <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
-          <p class="text-secondary">Yıllık Deneyim</p>
+          <p class="text-secondary">Years of Experience</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Games Section -->
   <section id="games" class="py-24 relative">
     <div class="container mx-auto px-6">
       <div class="text-center mb-16 scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Oyunlarımız</h2>
-        <p class="text-xl text-secondary max-w-2xl mx-auto">En sevdiğiniz Roblox deneyimlerini keşfedin</p>
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Our Games</h2>
+        <p class="text-xl text-secondary max-w-2xl mx-auto">Discover your favorite Roblox experiences</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Non Human -->
-        <article class="game-card scroll-reveal">
-          <div class="relative overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=800&q=80" 
-              alt="Non Human"
-              class="w-full h-48 object-cover"
-            >
-            <div class="absolute top-4 right-4">
-              <span class="glass px-3 py-1 rounded-full text-sm font-medium">Horror</span>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Non Human</h3>
-            <p class="text-secondary mb-6">Karanlıkta mahsur kaldınız ve geceyi hayatta kalmalısınız. Ama yalnız değilsiniz...</p>
-            
-            <div class="flex gap-3">
-              <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="btn-primary flex-1 text-center">
-                <i class="fas fa-play mr-2"></i>Şimdi Oyna
-              </a>
-              <button class="btn-secondary px-4">
-                <i class="fas fa-info"></i>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Warrior Reigns -->
-        <article class="game-card scroll-reveal">
-          <div class="relative overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1628495191521-6e2f4f1f0a54?auto=format&fit=crop&w=800&q=80" 
-              alt="Warrior Reigns"
-              class="w-full h-48 object-cover"
-            >
-            <div class="absolute top-4 right-4">
-              <span class="glass px-3 py-1 rounded-full text-sm font-medium">RPG</span>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Warrior Reigns</h3>
-            <p class="text-secondary mb-6">Güçlü kolyeler topla, benzersiz yetenekleri aç ve epik savaşlarla maksimum seviyeye ulaş.</p>
-            
-            <div class="flex gap-3">
-              <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="btn-primary flex-1 text-center">
-                <i class="fas fa-play mr-2"></i>Şimdi Oyna
-              </a>
-              <button class="btn-secondary px-4">
-                <i class="fab fa-discord"></i>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Coming Soon -->
         <article class="game-card scroll-reveal">
           <div class="relative overflow-hidden">
             <img 
@@ -502,17 +433,17 @@
               class="w-full h-48 object-cover grayscale"
             >
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
-              <span class="text-2xl font-bold text-accent-primary">Çok Yakında</span>
+              <span class="text-2xl font-bold text-accent-primary">Coming Soon</span>
             </div>
           </div>
           
           <div class="p-6">
-            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Gizli Proje</h3>
-            <p class="text-secondary mb-6">Büyük bir sürpriz hazırlıyoruz. Bir sonraki büyük çıkışımız için bizi takip edin!</p>
+            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Secret Project</h3>
+            <p class="text-secondary mb-6">We're preparing a big surprise. Follow us for our next big release!</p>
             
             <div class="flex gap-3">
               <button disabled class="btn-primary flex-1 opacity-50 cursor-not-allowed">
-                <i class="fas fa-clock mr-2"></i>Yakında
+                <i class="fas fa-clock mr-2"></i>Coming Soon
               </button>
               <button class="btn-secondary px-4">
                 <i class="fas fa-heart"></i>
@@ -524,14 +455,13 @@
     </div>
   </section>
 
-  <!-- About Section -->
   <section id="about" class="py-24 relative">
     <div class="container mx-auto px-6">
       <div class="text-center mb-16 scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Hakkımızda</h2>
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">About Us</h2>
         <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
-          Steep Games, kaliteli Roblox deneyimleri sunan tutkulu bir stüdyodur. 
-          Güçlü tasarım, eğlenceli sistemler ve topluluk odaklı güncellemelerle oyuncuların sevdiği oyunlar yaratıyoruz.
+          Steep Games is a passionate studio dedicated to delivering high-quality Roblox experiences. 
+          We create games players love with strong design, fun systems, and community-driven updates.
         </p>
       </div>
 
@@ -540,36 +470,35 @@
           <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <i class="fas fa-paint-brush text-2xl text-accent-primary"></i>
           </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Tasarım</h4>
-          <p class="text-secondary">UI odaklı yaklaşım, okunabilir arayüzler ve keskin ikonlar.</p>
+          <h4 class="text-2xl font-bold mb-4 text-white">Design</h4>
+          <p class="text-secondary">UI-focused approach, readable interfaces, and crisp icons.</p>
         </div>
 
         <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
           <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <i class="fas fa-cogs text-2xl text-accent-primary"></i>
           </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Sistemler</h4>
-          <p class="text-secondary">Benzersiz mekanikler ve pürüzsüz kontroller ile dengeli oynanış.</p>
+          <h4 class="text-2xl font-bold mb-4 text-white">Systems</h4>
+          <p class="text-secondary">Balanced gameplay with unique mechanics and smooth controls.</p>
         </div>
 
         <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
           <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <i class="fas fa-users text-2xl text-accent-primary"></i>
           </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Topluluk</h4>
-          <p class="text-secondary">Aktif geri bildirim döngüleri ve düzenli güncellemeler.</p>
+          <h4 class="text-2xl font-bold mb-4 text-white">Community</h4>
+          <p class="text-secondary">Active feedback loops and regular updates.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
   <section id="contact" class="py-24 relative">
     <div class="container mx-auto px-6 text-center">
       <div class="scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">İletişime Geç</h2>
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Get In Touch</h2>
         <p class="text-xl text-secondary mb-12 max-w-2xl mx-auto">
-          Sorularınız mı var veya işbirliği yapmak mı istiyorsunuz? Bize istediğiniz zaman email gönderin.
+          Have questions or want to collaborate? Feel free to send us an email anytime.
         </p>
 
         <a href="mailto:desteksteep@gmail.com" class="btn-primary inline-flex items-center gap-3 text-lg">
@@ -580,7 +509,6 @@
     </div>
   </section>
 
-  <!-- Scroll to Top Button -->
   <button id="scrollTopBtn" class="scroll-top">
     <i class="fas fa-arrow-up"></i>
   </button>
@@ -696,56 +624,6 @@
         element.style.transform = `translateY(${scrolled * speed}px)`;
       });
     });
-
-    // Cursor trail effect (subtle)
-    let mouseX = 0;
-    let mouseY = 0;
-    let trail = [];
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      
-      trail.push({ x: mouseX, y: mouseY });
-      if (trail.length > 10) trail.shift();
-    });
-
-    function createTrail() {
-      const canvas = document.createElement('canvas');
-      canvas.style.position = 'fixed';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '9999';
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      document.body.appendChild(canvas);
-
-      const ctx = canvas.getContext('2d');
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        trail.forEach((point, index) => {
-          const opacity = (index + 1) / trail.length * 0.3;
-          const size = (index + 1) * 2;
-          
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0, 255, 135, ${opacity})`;
-          ctx.fill();
-        });
-        
-        requestAnimationFrame(animate);
-      }
-      
-      animate();
-    }
-
-    // Only create trail on desktop
-    if (window.innerWidth > 768) {
-      createTrail();
-    }
 
     // Navbar hide/show on scroll
     let lastScrollTop = 0;
