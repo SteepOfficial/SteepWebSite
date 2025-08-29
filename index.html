@@ -11,340 +11,813 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- AOS (scroll animations) -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Font Awesome for icons -->
   <script src="https://kit.fontawesome.com/a2d9b3f3f1.js" crossorigin="anonymous"></script>
 
   <style>
-    :root{
-      --dark: #0b0f14;
-      --dark-light: rgba(15,20,25,0.85);
-      --primary: #0ea5a4; /* teal-ish */
-      --primary-dark: #0b7189;
-      --secondary: #7c3aed; /* violet */
-      --accent: #ffcc00;
-      --accent-hover: #ffd84d;
-      --glass-bg: rgba(255,255,255,0.03);
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-card: #16161f;
+      --accent-primary: #00ff87;
+      --accent-secondary: #7c3aed;
+      --accent-tertiary: #06b6d4;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --glow-primary: rgba(0, 255, 135, 0.3);
+      --glow-secondary: rgba(124, 58, 237, 0.3);
     }
 
-    html,body { font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-    body { background: linear-gradient(180deg,#061018 0%, #071020 100%); color: #e6eef6; }
+    * {
+      box-sizing: border-box;
+    }
 
-    /* Hero gradient anim */
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background Effects */
+    .bg-grid {
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+      background-size: 40px 40px;
+    }
+
+    .bg-animated {
+      background: linear-gradient(-45deg, #0a0a0f, #111118, #16161f, #0f0f17);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .animate-gradient {
-      background-size: 200% 200%;
-      animation: gradientShift 10s ease infinite;
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(22, 22, 31, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
     }
 
-    /* slow pulse for logo text */
-    @keyframes pulse-slow { 0%{opacity:1}50%{opacity:.6}100%{opacity:1} }
-    .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-
-    /* fancy fade in + up */
-    .animate-fade-in-down { transform: translateY(0); opacity:1; transition:all .7s cubic-bezier(.2,.8,.2,1) }
-    .fade-hidden { transform: translateY(18px); opacity:0; }
-
-    /* hero button */
-    .hero-button {
-      box-shadow: 0 8px 30px rgba(124,58,237,0.08), inset 0 -2px 0 rgba(0,0,0,0.12);
-      transition: transform .28s ease, box-shadow .28s ease, background-color .2s;
-    }
-    .hero-button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 18px 50px rgba(124,58,237,0.18);
+    .glass-strong {
+      background: rgba(22, 22, 31, 0.8);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--border-subtle);
     }
 
-    /* glass navbar */
-    .nav-glass {
-      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+    /* Hover Effects */
+    .hover-glow {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* card hover glow & tilt */
+    .hover-glow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s;
+    }
+
+    .hover-glow:hover::before {
+      left: 100%;
+    }
+
+    .hover-glow:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px var(--glow-primary);
+    }
+
+    /* Text Effects */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-glow {
+      text-shadow: 0 0 20px var(--glow-primary);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+      color: var(--bg-primary);
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 255, 135, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-secondary);
+      border-color: var(--accent-primary);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Cards */
     .game-card {
-      transition: transform .45s cubic-bezier(.2,.9,.3,1), box-shadow .45s;
-      transform-origin: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
     }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
     .game-card:hover {
-      transform: translateY(-14px) rotate(-1deg) scale(1.02);
-      box-shadow: 0 30px 60px rgba(2,6,23,0.6);
+      transform: translateY(-12px) rotateY(5deg) rotateX(5deg);
+      border-color: var(--accent-primary);
+      box-shadow: 
+        0 30px 60px -12px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(0, 255, 135, 0.2);
     }
 
-    /* image overlay */
-    .card-img {
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      border-radius: 0.65rem;
-      transition: transform .6s ease;
+    .game-card img {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .game-card:hover .card-img { transform: scale(1.06) rotate(0.6deg); filter: saturate(1.06); }
 
-    /* subtle glow for accent */
-    .text-accent { color: var(--accent); text-shadow: 0 2px 12px rgba(255,204,0,0.07); }
-
-    /* scroll-to-top */
-    #scrollTopBtn{
-      position: fixed; right: 20px; bottom: 26px;
-      background: linear-gradient(135deg,var(--accent),var(--accent-hover));
-      color: #07101a; padding: 12px 14px;
-      border-radius: 999px; box-shadow: 0 12px 30px rgba(255,204,0,0.16);
-      display:flex; align-items:center; justify-content:center;
-      z-index:60; transform: translateY(10px); transition:all .25s;
-      cursor:pointer;
+    .game-card:hover img {
+      transform: scale(1.1) rotate(2deg);
+      filter: saturate(1.2) brightness(1.1);
     }
-    #scrollTopBtn:hover { transform: translateY(-4px) scale(1.02); }
 
-    /* 3D rotating logo (simple) */
-    .logo-3d {
-      width: 96px; height: 96px; margin: 0 auto;
-      display: grid; place-items: center;
-      background: linear-gradient(135deg,var(--primary),var(--secondary));
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(16,24,40,0.6), inset 0 -6px 18px rgba(0,0,0,0.2);
-      transform-style: preserve-3d;
-      animation: logoRotate 10s linear infinite;
+    /* Logo Animation */
+    .logo-container {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
     }
-    @keyframes logoRotate {
-      0%{ transform: rotateX(12deg) rotateY(0) rotateZ(0) }
-      50%{ transform: rotateX(12deg) rotateY(180deg) rotateZ(6deg) }
-      100%{ transform: rotateX(12deg) rotateY(360deg) rotateZ(0) }
+
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: logoSpin 4s linear infinite;
     }
-    .logo-3d img { width:70%; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45)); }
 
-    /* utility tweaks for mobile nav */
-    .mobile-menu { transition: max-height .35s ease, opacity .35s ease; overflow: hidden; }
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-    /* small helpers */
-    a { text-decoration: none; }
-    .container { max-width: 1160px; padding-left: 1rem; padding-right: 1rem; margin: 0 auto; }
+    .logo-container img {
+      width: 60%;
+      z-index: 2;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+    }
 
-    /* responsive tweaks */
-    @media (max-width:768px){
-      .text-6xl { font-size: 2.25rem; }
-      .text-7xl { font-size: 2.6rem; }
-      .logo-3d { width:76px; height:76px; border-radius:14px; }
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      border-radius: 50px;
+      padding: 0.5rem;
+      width: calc(100% - 2rem);
+      max-width: 900px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        top: 10px;
+        width: calc(100% - 1rem);
+      }
+    }
+
+    /* Floating Elements */
+    .floating {
+      animation: floating 6s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Scroll Reveal */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stats Counter */
+    .stat-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    /* Scroll to Top */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(100px);
+      opacity: 0;
+      z-index: 1000;
+      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
+    }
+
+    .scroll-top.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 15px 35px rgba(0, 255, 135, 0.4);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .text-7xl { font-size: 3rem; }
+      .text-6xl { font-size: 2.5rem; }
+      .text-5xl { font-size: 2rem; }
     }
   </style>
 </head>
 
-<body class="overflow-x-hidden bg-[radial-gradient(ellipse_at_top_left,#07101a,#04060a)]">
-  <!-- NAVBAR -->
-  <nav class="fixed w-full top-0 z-50 nav-glass">
-    <div class="container flex items-center justify-between py-4">
+<body class="bg-animated bg-grid">
+  <!-- Navigation -->
+  <nav class="navbar glass-strong">
+    <div class="flex items-center justify-between px-6 py-2">
+      <!-- Logo & Brand -->
       <div class="flex items-center gap-4">
-        <div class="logo-3d">
-          <!-- Replace src with your logo if you have a transparent svg/png -->
+        <div class="logo-container">
           <img src="https://raw.githubusercontent.com/SteepOfficial/SteepWebSite/refs/heads/main/SteepGamesLogoNoBackground.png" alt="Steep Logo">
         </div>
-        <div class="ml-2">
-          <h1 class="text-white font-bold text-xl leading-none animate-pulse-slow">Steep Games</h1>
-          <p class="text-gray-300 text-xs -mt-1">Roblox Innovators</p>
+        <div>
+          <h1 class="text-xl font-bold text-gradient">Steep Games</h1>
+          <p class="text-xs text-muted -mt-1">Roblox Innovators</p>
         </div>
       </div>
 
-      <!-- desktop links -->
-      <ul class="hidden md:flex items-center gap-8 text-sm">
-        <li><a href="#home" class="hover:text-accent transition-colors duration-250">Home</a></li>
-        <li><a href="#games" class="hover:text-accent transition-colors duration-250">Games</a></li>
-        <li><a href="#about" class="hover:text-accent transition-colors duration-250">About</a></li>
-        <li><a href="#contact" class="hover:text-accent transition-colors duration-250">Contact</a></li>
-        <li><a href="mailto:desteksteep@gmail.com" class="ml-2 bg-accent text-[0.95rem] px-4 py-2 rounded-full font-semibold hover:brightness-105 transition">Email</a></li>
-      </ul>
-
-      <!-- mobile hamburger -->
-      <div class="md:hidden flex items-center">
-        <button id="hamburgerBtn" aria-label="Open menu" class="p-2">
-          <i class="fa-solid fa-bars text-gray-200 text-lg"></i>
-        </button>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#home" class="text-sm font-medium hover:text-accent-primary transition-colors">Ana Sayfa</a>
+        <a href="#games" class="text-sm font-medium hover:text-accent-primary transition-colors">Oyunlar</a>
+        <a href="#about" class="text-sm font-medium hover:text-accent-primary transition-colors">Hakkımızda</a>
+        <a href="#contact" class="text-sm font-medium hover:text-accent-primary transition-colors">İletişim</a>
+        <a href="mailto:desteksteep@gmail.com" class="btn-primary">Email Gönder</a>
       </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
     </div>
 
-    <!-- mobile menu -->
-    <div id="mobileMenu" class="mobile-menu md:hidden bg-[#07101a]/80 border-t border-white/3 px-6">
-      <div class="flex flex-col gap-4 py-4">
-        <a href="#home" class="text-white py-2">Home</a>
-        <a href="#games" class="text-white py-2">Games</a>
-        <a href="#about" class="text-white py-2">About</a>
-        <a href="#contact" class="text-white py-2">Contact</a>
-        <a href="mailto:desteksteep@gmail.com" class="py-2 inline-block w-max bg-accent px-4 py-[6px] rounded-full font-semibold mt-1">Email</a>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden mt-4 p-4 border-t border-white/10 hidden">
+      <div class="flex flex-col gap-4">
+        <a href="#home" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Ana Sayfa</a>
+        <a href="#games" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Oyunlar</a>
+        <a href="#about" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Hakkımızda</a>
+        <a href="#contact" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">İletişim</a>
+        <a href="mailto:desteksteep@gmail.com" class="btn-primary text-center">Email Gönder</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="home" class="min-h-screen flex items-center justify-center animate-gradient" style="background-image: linear-gradient(120deg,var(--primary), #3b82f6 30%, var(--secondary) 70%);">
-    <div class="container text-center py-36">
-      <h2 class="text-6xl md:text-7xl font-extrabold mb-4 drop-shadow-xl">Welcome to <span class="text-accent">Steep Games</span>!</h2>
-      <p class="text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto">Crafting cutting-edge Roblox experiences — <span class="text-white/90">immersive</span>, <span class="text-white/90">polished</span>, <span class="text-white/90">fun</span>.</p>
-
-      <div class="flex items-center justify-center gap-4">
-        <a href="#games" class="hero-button bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] px-8 py-4 rounded-full font-semibold hover:scale-105 transition-all duration-300">Explore Our Games</a>
-        <a href="#about" class="px-6 py-3 rounded-full border border-white/6 text-white/90 hover:bg-white/6 transition">Learn More</a>
-      </div>
-
-      <!-- small stat cards -->
-      <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
-          <p class="text-sm text-gray-300">Players</p>
-          <p class="text-2xl font-bold">+120k</p>
-        </div>
-        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
-          <p class="text-sm text-gray-300">Games</p>
-          <p class="text-2xl font-bold">3</p>
-        </div>
-        <div class="bg-[#061218]/50 p-4 rounded-xl shadow-md">
-          <p class="text-sm text-gray-300">Years</p>
-          <p class="text-2xl font-bold">3</p>
-        </div>
-      </div>
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center justify-center relative pt-32">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-primary/20 rounded-full filter blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-secondary/20 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
     </div>
-  </section>
-
-  <!-- GAMES -->
-  <section id="games" class="py-24 bg-[#04060a]">
-    <div class="container">
-      <h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-12" data-aos="fade-up">Our Games</h2>
-      <div id="game-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Card 1 -->
-        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="100">
-          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=1200&q=60" alt="Non Human cover">
-          <h3 class="text-2xl font-semibold mb-2 text-accent">Non Human</h3>
-          <p class="text-gray-300 mb-4">Trapped in the darkness, you must survive the night but you're not alone.</p>
-          <div class="flex gap-3">
-            <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
-            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Details</a>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="200">
-          <img class="card-img mb-4" src="https://images.unsplash.com/photo-1628495191521-6e2f4f1f0a54?auto=format&fit=crop&w=1200&q=60" alt="Warrior Reigns cover">
-          <h3 class="text-2xl font-semibold mb-2 text-accent">Warrior Reigns</h3>
-          <p class="text-gray-300 mb-4">Collect powerful necklaces, unlock unique skills, and grind your way to level max through epic battles, quests, and fishing.</p>
-          <div class="flex gap-3">
-            <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
-            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Discord</a>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="game-card bg-[#07121a] p-6 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-delay="300">
-          <div class="relative mb-4">
-            <img class="card-img" src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1200&q=60" alt="Soon">
-            <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/40 to-transparent flex items-center justify-center">
-              <span class="text-white font-bold text-xl">Coming Soon</span>
-            </div>
-          </div>
-          <h3 class="text-2xl font-semibold mb-2 text-accent">Soon!</h3>
-          <p class="text-gray-300 mb-4">We're cooking something new — stay tuned for the next big drop.</p>
-          <div class="flex gap-3">
-            <a href="https://www.roblox.com" target="_blank" class="px-4 py-2 rounded-full bg-[linear-gradient(90deg,var(--accent),#ffd54a)] text-[#07101a] font-semibold hover:scale-105 transition">Play Now</a>
-            <a href="#" class="px-4 py-2 rounded-full border border-white/6 text-sm">Wishlist</a>
-          </div>
-        </article>
+    
+    <div class="container mx-auto px-6 text-center relative z-10">
+      <div class="floating">
+        <h2 class="text-6xl md:text-7xl font-black mb-6 leading-tight">
+          <span class="text-gradient text-glow">Steep Games</span>'e<br/>
+          <span class="text-white">Hoş Geldin!</span>
+        </h2>
       </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-24 bg-gradient-to-b from-[#07101a] to-[#04060a]">
-    <div class="container text-center">
-      <h2 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">About Us</h2>
-      <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">
-        Steep Games is a passionate indie studio focused on polished Roblox experiences. We combine strong design, fun systems and community-driven updates to create games players love.
+      
+      <p class="text-xl md:text-2xl text-secondary max-w-4xl mx-auto mb-12 leading-relaxed">
+        Roblox dünyasında <span class="text-accent-primary font-semibold">sürükleyici</span>, 
+        <span class="text-accent-primary font-semibold">kaliteli</span> ve 
+        <span class="text-accent-primary font-semibold">eğlenceli</span> deneyimler yaratıyoruz
       </p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="200">
-          <h4 class="font-bold text-lg">Design</h4>
-          <p class="text-gray-300 mt-2 text-sm">UI-first approach, readable HUDs and crisp icons.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
+        <a href="#games" class="btn-primary inline-flex items-center gap-2">
+          <i class="fas fa-gamepad"></i>
+          Oyunlarımızı Keşfet
+        </a>
+        <a href="#about" class="btn-secondary">Daha Fazla Bilgi</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="glass rounded-2xl p-6 hover-glow">
+          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="120000">0</div>
+          <p class="text-secondary">Aktif Oyuncu</p>
         </div>
-        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="300">
-          <h4 class="font-bold text-lg">Systems</h4>
-          <p class="text-gray-300 mt-2 text-sm">Balanced gameplay with unique mechanics and smooth controls.</p>
+        <div class="glass rounded-2xl p-6 hover-glow">
+          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
+          <p class="text-secondary">Yayınlanan Oyun</p>
         </div>
-        <div class="p-6 bg-[#061218]/50 rounded-xl" data-aos="zoom-in" data-aos-delay="400">
-          <h4 class="font-bold text-lg">Community</h4>
-          <p class="text-gray-300 mt-2 text-sm">Active feedback loops and regular updates.</p>
+        <div class="glass rounded-2xl p-6 hover-glow">
+          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
+          <p class="text-secondary">Yıllık Deneyim</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-24 bg-[#07101a] text-center text-gray-300">
-    <div class="container max-w-lg mx-auto">
-      <h2 class="text-4xl font-bold mb-6" data-aos="fade-up">Get in Touch</h2>
-      <p class="mb-8" data-aos="fade-up" data-aos-delay="100">Have questions or want to collaborate? Email us anytime.</p>
+  <!-- Games Section -->
+  <section id="games" class="py-24 relative">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Oyunlarımız</h2>
+        <p class="text-xl text-secondary max-w-2xl mx-auto">En sevdiğiniz Roblox deneyimlerini keşfedin</p>
+      </div>
 
-      <a href="mailto:desteksteep@gmail.com" class="inline-block px-8 py-3 bg-accent text-[#07101a] font-semibold rounded-full hover:brightness-110 transition" data-aos="fade-up" data-aos-delay="200">
-        Email Us
-      </a>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Non Human -->
+        <article class="game-card scroll-reveal">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=800&q=80" 
+              alt="Non Human"
+              class="w-full h-48 object-cover"
+            >
+            <div class="absolute top-4 right-4">
+              <span class="glass px-3 py-1 rounded-full text-sm font-medium">Horror</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Non Human</h3>
+            <p class="text-secondary mb-6">Karanlıkta mahsur kaldınız ve geceyi hayatta kalmalısınız. Ama yalnız değilsiniz...</p>
+            
+            <div class="flex gap-3">
+              <a href="https://www.roblox.com/games/15293349102/NonHuman-Summer" target="_blank" class="btn-primary flex-1 text-center">
+                <i class="fas fa-play mr-2"></i>Şimdi Oyna
+              </a>
+              <button class="btn-secondary px-4">
+                <i class="fas fa-info"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Warrior Reigns -->
+        <article class="game-card scroll-reveal">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1628495191521-6e2f4f1f0a54?auto=format&fit=crop&w=800&q=80" 
+              alt="Warrior Reigns"
+              class="w-full h-48 object-cover"
+            >
+            <div class="absolute top-4 right-4">
+              <span class="glass px-3 py-1 rounded-full text-sm font-medium">RPG</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Warrior Reigns</h3>
+            <p class="text-secondary mb-6">Güçlü kolyeler topla, benzersiz yetenekleri aç ve epik savaşlarla maksimum seviyeye ulaş.</p>
+            
+            <div class="flex gap-3">
+              <a href="https://www.roblox.com/games/122483974796271/Warrior-Reigns" target="_blank" class="btn-primary flex-1 text-center">
+                <i class="fas fa-play mr-2"></i>Şimdi Oyna
+              </a>
+              <button class="btn-secondary px-4">
+                <i class="fab fa-discord"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Coming Soon -->
+        <article class="game-card scroll-reveal">
+          <div class="relative overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80" 
+              alt="Coming Soon"
+              class="w-full h-48 object-cover grayscale"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+              <span class="text-2xl font-bold text-accent-primary">Çok Yakında</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Gizli Proje</h3>
+            <p class="text-secondary mb-6">Büyük bir sürpriz hazırlıyoruz. Bir sonraki büyük çıkışımız için bizi takip edin!</p>
+            
+            <div class="flex gap-3">
+              <button disabled class="btn-primary flex-1 opacity-50 cursor-not-allowed">
+                <i class="fas fa-clock mr-2"></i>Yakında
+              </button>
+              <button class="btn-secondary px-4">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- SCROLL TO TOP BUTTON -->
-  <button id="scrollTopBtn" aria-label="Scroll to top" title="Scroll to top" style="display:none;">
-    <i class="fa-solid fa-arrow-up"></i>
+  <!-- About Section -->
+  <section id="about" class="py-24 relative">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Hakkımızda</h2>
+        <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
+          Steep Games, kaliteli Roblox deneyimleri sunan tutkulu bir indie stüdyodur. 
+          Güçlü tasarım, eğlenceli sistemler ve topluluk odaklı güncellemelerle oyuncuların sevdiği oyunlar yaratıyoruz.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
+          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-paint-brush text-2xl text-accent-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-4 text-white">Tasarım</h4>
+          <p class="text-secondary">UI odaklı yaklaşım, okunabilir arayüzler ve keskin ikonlar.</p>
+        </div>
+
+        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
+          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-cogs text-2xl text-accent-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-4 text-white">Sistemler</h4>
+          <p class="text-secondary">Benzersiz mekanikler ve pürüzsüz kontroller ile dengeli oynanış.</p>
+        </div>
+
+        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
+          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-users text-2xl text-accent-primary"></i>
+          </div>
+          <h4 class="text-2xl font-bold mb-4 text-white">Topluluk</h4>
+          <p class="text-secondary">Aktif geri bildirim döngüleri ve düzenli güncellemeler.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 relative">
+    <div class="container mx-auto px-6 text-center">
+      <div class="scroll-reveal">
+        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">İletişime Geç</h2>
+        <p class="text-xl text-secondary mb-12 max-w-2xl mx-auto">
+          Sorularınız mı var veya işbirliği yapmak mı istiyorsunuz? Bize istediğiniz zaman email gönderin.
+        </p>
+
+        <a href="mailto:desteksteep@gmail.com" class="btn-primary inline-flex items-center gap-3 text-lg">
+          <i class="fas fa-envelope"></i>
+          desteksteep@gmail.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" class="scroll-top">
+    <i class="fas fa-arrow-up"></i>
   </button>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    // Initialize AOS animations
-    AOS.init({
-      once: true,
-      duration: 700,
-      easing: 'cubic-bezier(.2,.8,.2,1)'
-    });
-
     // Mobile menu toggle
-    const hamb = document.getElementById('hamburgerBtn');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-    let open = false;
-    mobileMenu.style.maxHeight = '0px';
-    mobileMenu.style.opacity = '0';
-    hamb.addEventListener('click', () => {
-      open = !open;
-      if(open){
-        mobileMenu.style.maxHeight = '320px';
-        mobileMenu.style.opacity = '1';
-        hamb.innerHTML = '<i class="fa-solid fa-xmark text-gray-200 text-lg"></i>';
-      } else {
-        mobileMenu.style.maxHeight = '0px';
-        mobileMenu.style.opacity = '0';
-        hamb.innerHTML = '<i class="fa-solid fa-bars text-gray-200 text-lg"></i>';
-      }
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = mobileMenuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
     });
 
-    // Smooth reveal for fade-in elements on load
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.animate-fade-in-down').forEach(el => el.classList.remove('fade-hidden'));
+    // Close mobile menu when clicking on a link
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuBtn.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-times');
+      });
     });
 
-    // Scroll to top button show/hide and click
-    const scrollBtn = document.getElementById('scrollTopBtn');
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 100;
+          const targetPosition = target.offsetTop - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Scroll reveal animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Counter animation
+    const counters = document.querySelectorAll('.stat-number');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = parseInt(entry.target.dataset.target);
+          let current = 0;
+          const increment = target / 100;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              entry.target.textContent = target.toLocaleString();
+              clearInterval(timer);
+            } else {
+              entry.target.textContent = Math.floor(current).toLocaleString();
+            }
+          }, 20);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => {
+      counterObserver.observe(counter);
+    });
+
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
     window.addEventListener('scroll', () => {
-      if(window.scrollY > 400){
-        scrollBtn.style.display = 'flex';
+      if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
       } else {
-        scrollBtn.style.display = 'none';
+        scrollTopBtn.classList.remove('visible');
       }
     });
-    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // Mouse follow event REMOVED as requested.
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Parallax effect for background elements
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('.floating');
+      
+      parallaxElements.forEach(element => {
+        const speed = 0.5;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+
+    // Cursor trail effect (subtle)
+    let mouseX = 0;
+    let mouseY = 0;
+    let trail = [];
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      trail.push({ x: mouseX, y: mouseY });
+      if (trail.length > 10) trail.shift();
+    });
+
+    function createTrail() {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '9999';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        trail.forEach((point, index) => {
+          const opacity = (index + 1) / trail.length * 0.3;
+          const size = (index + 1) * 2;
+          
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 255, 135, ${opacity})`;
+          ctx.fill();
+        });
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    }
+
+    // Only create trail on desktop
+    if (window.innerWidth > 768) {
+      createTrail();
+    }
+
+    // Navbar hide/show on scroll
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scrolling down
+        navbar.style.transform = 'translateX(-50%) translateY(-100px)';
+        navbar.style.opacity = '0.8';
+      } else {
+        // Scrolling up
+        navbar.style.transform = 'translateX(-50%) translateY(0)';
+        navbar.style.opacity = '1';
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+
+    // Add loading animation
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuBtn.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-times');
+      }
+    });
+
+    // Performance optimization - throttle scroll events
+    function throttle(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Apply throttling to scroll events
+    const throttledScrollHandler = throttle(() => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        navbar.style.transform = 'translateX(-50%) translateY(-100px)';
+        navbar.style.opacity = '0.8';
+      } else {
+        navbar.style.transform = 'translateX(-50%) translateY(0)';
+        navbar.style.opacity = '1';
+      }
+      
+      lastScrollTop = scrollTop;
+      
+      // Scroll to top button
+      if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    }, 16);
+
+    window.addEventListener('scroll', throttledScrollHandler);
   </script>
 </body>
 </html>
