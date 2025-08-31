@@ -824,7 +824,9 @@
   <script>
     document.addEventListener("contextmenu", function(e) {
         e.preventDefault();
+        return false;
     });
+    
     document.addEventListener("keydown", function(e) {
         if (e.ctrlKey && (
             e.key === "u" ||  // Ctrl+U
@@ -832,7 +834,31 @@
             e.key === "c"     // Ctrl+C
         )) {
             e.preventDefault();
-            alert("This process is blocked!");
+            e.stopPropagation();
+            return false;
+        }
+        
+        // F12 ve diğer developer keys
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && e.key === "I") ||
+            (e.ctrlKey && e.shiftKey && e.key === "C") ||
+            (e.ctrlKey && e.shiftKey && e.key === "J")) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    });
+    
+    // Ekstra koruma
+    document.addEventListener("keypress", function(e) {
+        if (e.ctrlKey && (
+            e.key === "u" || 
+            e.key === "s" || 
+            e.key === "c"
+        )) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
     });
   </script>
