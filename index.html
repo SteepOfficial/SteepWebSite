@@ -830,8 +830,7 @@
     document.addEventListener("keydown", function(e) {
         if (e.ctrlKey && (
             e.key === "u" ||  // Ctrl+U
-            e.key === "s" ||  // Ctrl+S
-            e.key === "c"     // Ctrl+C
+            e.key === "s"     // Ctrl+S
         )) {
             e.preventDefault();
             e.stopPropagation();
@@ -853,8 +852,7 @@
     document.addEventListener("keypress", function(e) {
         if (e.ctrlKey && (
             e.key === "u" || 
-            e.key === "s" || 
-            e.key === "c"
+            e.key === "s"
         )) {
             e.preventDefault();
             e.stopPropagation();
