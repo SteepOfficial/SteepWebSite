@@ -1,864 +1,1209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Professional Game Development - Steep Games">
-  <meta name="keywords" content="Roblox, Game Development, Steep Games">
-  <meta name="author" content="Steep Games">
-  <title>Steep Games - Roblox Innovators</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://kit.fontawesome.com/a2d9b3f3f1.js" crossorigin="anonymous"></script>
-
-  <style>
-    :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #111118;
-      --bg-card: #16161f;
-      --accent-primary: #00ff87;
-      --accent-secondary: #7c3aed;
-      --accent-tertiary: #06b6d4;
-      --text-primary: #ffffff;
-      --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --glow-primary: rgba(0, 255, 135, 0.3);
-      --glow-secondary: rgba(124, 58, 237, 0.3);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Background Effects */
-    .bg-grid {
-      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
-      background-size: 40px 40px;
-    }
-
-    .bg-animated {
-      background: linear-gradient(-45deg, #0a0a0f, #111118, #16161f, #0f0f17);
-      background-size: 400% 400%;
-      animation: gradientShift 20s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Glassmorphism */
-    .glass {
-      background: rgba(22, 22, 31, 0.4);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .glass-strong {
-      background: rgba(22, 22, 31, 0.8);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--border-subtle);
-    }
-
-    /* Hover Effects */
-    .hover-glow {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hover-glow::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.6s;
-    }
-
-    .hover-glow:hover::before {
-      left: 100%;
-    }
-
-    .hover-glow:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 50px -12px var(--glow-primary);
-    }
-
-    /* Text Effects */
-    .text-gradient {
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: var(--accent-primary); /* Fallback for browsers that don't support background-clip */
-    }
-
-    .text-glow {
-      text-shadow: 0 0 20px var(--glow-primary);
-    }
-
-    /* Text Color Classes */
-    .text-white { color: #ffffff; }
-    .text-primary { color: var(--text-primary); }
-    .text-secondary { color: var(--text-secondary); }
-    .text-muted { color: var(--text-muted); }
-    .text-accent-primary { color: var(--accent-primary); }
-
-    /* Buttons */
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
-      color: var(--bg-primary);
-      font-weight: 600;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
-    }
-
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s;
-    }
-
-    .btn-primary:hover::before {
-      left: 100%;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 255, 135, 0.4);
-    }
-
-    .btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      border: 1px solid var(--border-subtle);
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-secondary);
-      border-color: var(--accent-primary);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Cards */
-    .game-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .game-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .game-card:hover::before {
-      opacity: 1;
-    }
-
-    .game-card:hover {
-      transform: translateY(-12px) rotateY(5deg) rotateX(5deg);
-      border-color: var(--accent-primary);
-      box-shadow: 
-        0 30px 60px -12px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(0, 255, 135, 0.2);
-    }
-
-    .game-card img {
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .game-card:hover img {
-      transform: scale(1.1) rotate(2deg);
-      filter: saturate(1.2) brightness(1.1);
-    }
-
-    /* Logo Animation */
-    .logo-container {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
-    }
-
-    .logo-container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      animation: logoSpin 4s linear infinite;
-    }
-
-    @keyframes logoSpin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .logo-container img {
-      width: 60%;
-      z-index: 2;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-    }
-
-    /* Navigation */
-    .navbar {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      border-radius: 50px;
-      padding: 0.5rem;
-      width: calc(100% - 2rem);
-      max-width: 900px;
-    }
-
-    @media (max-width: 768px) {
-      .navbar {
-        top: 10px;
-        width: calc(100% - 1rem);
-      }
-    }
-
-    /* Floating Elements */
-    .floating {
-      animation: floating 6s ease-in-out infinite;
-    }
-
-    @keyframes floating {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    /* Scroll Reveal */
-    .scroll-reveal {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .scroll-reveal.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Stats Counter */
-    .stat-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-    }
-
-    /* Scroll to Top */
-    .scroll-top {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--bg-primary);
-      font-size: 1.2rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateY(100px);
-      opacity: 0;
-      z-index: 1000;
-      box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
-    }
-
-    .scroll-top.visible {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .scroll-top:hover {
-      transform: translateY(-4px) scale(1.1);
-      box-shadow: 0 15px 35px rgba(0, 255, 135, 0.4);
-    }
-
-    /* DMCA Badge Styling */
-    .dmca-badge {
-      display: inline-block;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      padding: 8px;
-      background: rgba(22, 22, 31, 0.6);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .dmca-badge::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, var(--accent-primary), var(--accent-tertiary), var(--accent-primary));
-      border-radius: 14px;
-      z-index: -1;
-      opacity: 0;
-      animation: dmcaGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes dmcaGlow {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 0.6; }
-    }
-
-    .dmca-badge:hover::before {
-      opacity: 0.8;
-      animation-duration: 1s;
-    }
-
-    .dmca-badge img {
-      width: 120px;
-      height: auto;
-      transition: all 0.3s ease;
-      filter: brightness(0.9) saturate(1.1);
-    }
-
-    .dmca-badge:hover img {
-      filter: brightness(1.1) saturate(1.3);
-      transform: scale(1.05);
-    }
-
-    /* Footer */
-    .footer {
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-subtle);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-      opacity: 0.5;
-    }
-
-    /* Mobile Adjustments */
-    @media (max-width: 768px) {
-      .text-7xl { font-size: 3rem; }
-      .text-6xl { font-size: 2.5rem; }
-      .text-5xl { font-size: 2rem; }
-      .dmca-badge img { width: 100px; }
-    }
-  </style>
-</head>
-
-<body class="bg-animated bg-grid">
-  <nav class="navbar glass-strong">
-    <div class="flex items-center justify-between px-6 py-2">
-      <div class="flex items-center gap-4">
-        <div class="logo-container">
-          <img src="https://raw.githubusercontent.com/SteepOfficial/SteepWebSite/refs/heads/main/SteepGamesLogoNoBackground.png" alt="Steep Logo">
-        </div>
-        <div>
-          <h1 class="text-xl font-bold text-gradient">Steep Games</h1>
-          <p class="text-xs text-muted -mt-1">Roblox Innovators</p>
-        </div>
-      </div>
-
-      <div class="hidden md:flex items-center gap-6">
-        <a href="#home" class="text-sm font-medium hover:text-accent-primary transition-colors">Home</a>
-        <a href="#games" class="text-sm font-medium hover:text-accent-primary transition-colors">Games</a>
-        <a href="#about" class="text-sm font-medium hover:text-accent-primary transition-colors">About Us</a>
-        <a href="#contact" class="text-sm font-medium hover:text-accent-primary transition-colors">Contact</a>
-        <a href="mailto:desteksteep@gmail.com" class="btn-primary">Send Email</a>
-      </div>
-
-      <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors">
-        <i class="fas fa-bars text-xl"></i>
-      </button>
-    </div>
-
-    <div id="mobileMenu" class="md:hidden mt-4 p-4 border-t border-white/10 hidden">
-      <div class="flex flex-col gap-4">
-        <a href="#home" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Home</a>
-        <a href="#games" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Games</a>
-        <a href="#about" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">About Us</a>
-        <a href="#contact" class="mobile-link text-center py-3 hover:text-accent-primary transition-colors">Contact</a>
-        <a href="mailto:desteksteep@gmail.com" class="btn-primary text-center">Send Email</a>
-      </div>
-    </div>
-  </nav>
-
-  <section id="home" class="min-h-screen flex items-center justify-center relative pt-32">
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-primary/20 rounded-full filter blur-3xl animate-pulse"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-secondary/20 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 text-center relative z-10">
-      <div class="floating">
-        <h2 class="text-6xl md:text-7xl font-black mb-6 leading-tight">
-          Welcome to<br/><span class="text-gradient text-glow">Steep Games!</span>
-        </h2>
-      </div>
-      
-      <p class="text-xl md:text-2xl text-secondary max-w-4xl mx-auto mb-12 leading-relaxed">
-        We create <span class="text-accent-primary font-semibold">immersive</span>, 
-        <span class="text-accent-primary font-semibold">high-quality</span> and 
-        <span class="text-accent-primary font-semibold">fun</span> experiences in the Roblox world
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-        <a href="#games" class="btn-primary inline-flex items-center gap-2">
-          <i class="fas fa-gamepad"></i>
-          Explore Our Games
-        </a>
-        <a href="#about" class="btn-secondary">Learn More</a>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-        <div class="glass rounded-2xl p-6 hover-glow">
-          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="5000">0</div>
-          <p class="text-secondary">Visits</p>
-        </div>
-        <div class="glass rounded-2xl p-6 hover-glow">
-          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
-          <p class="text-secondary">Published Games</p>
-        </div>
-        <div class="glass rounded-2xl p-6 hover-glow">
-          <div class="stat-number text-4xl font-bold text-accent-primary mb-2" data-target="3">0</div>
-          <p class="text-secondary">Years of Experience</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="games" class="py-24 relative">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16 scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Our Games</h2>
-        <p class="text-xl text-secondary max-w-2xl mx-auto">Discover your favorite Roblox experiences</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article class="game-card scroll-reveal">
-          <div class="relative overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80" 
-              alt="Coming Soon"
-              class="w-full h-48 object-cover grayscale"
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
-              <span class="text-2xl font-bold text-accent-primary">Coming Soon</span>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <h3 class="text-2xl font-bold mb-3 text-accent-primary">Secret Project</h3>
-            <p class="text-secondary mb-6">We're preparing a big surprise. Follow us for our next big release!</p>
-            
-            <div class="flex gap-3">
-              <button disabled class="btn-primary flex-1 opacity-50 cursor-not-allowed">
-                <i class="fas fa-clock mr-2"></i>Coming Soon
-              </button>
-              <button class="btn-secondary px-4">
-                <i class="fas fa-heart"></i>
-              </button>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="py-24 relative">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16 scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">About Us</h2>
-        <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
-          Steep Games is a passionate studio dedicated to delivering high-quality Roblox experiences. 
-          We create games players love with strong design, fun systems, and community-driven updates.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
-          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-paint-brush text-2xl text-accent-primary"></i>
-          </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Design</h4>
-          <p class="text-secondary">UI-focused approach, readable interfaces, and crisp icons.</p>
-        </div>
-
-        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
-          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-cogs text-2xl text-accent-primary"></i>
-          </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Systems</h4>
-          <p class="text-secondary">Balanced gameplay with unique mechanics and smooth controls.</p>
-        </div>
-
-        <div class="glass rounded-2xl p-8 hover-glow scroll-reveal text-center">
-          <div class="w-16 h-16 bg-accent-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-users text-2xl text-accent-primary"></i>
-          </div>
-          <h4 class="text-2xl font-bold mb-4 text-white">Community</h4>
-          <p class="text-secondary">Active feedback loops and regular updates.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="py-24 relative">
-    <div class="container mx-auto px-6 text-center">
-      <div class="scroll-reveal">
-        <h2 class="text-5xl md:text-6xl font-black mb-6 text-gradient">Get In Touch</h2>
-        <p class="text-xl text-secondary mb-12 max-w-2xl mx-auto">
-          Have questions or want to collaborate? Feel free to send us an email anytime.
-        </p>
-
-        <a href="mailto:desteksteep@gmail.com" class="btn-primary inline-flex items-center gap-3 text-lg">
-          <i class="fas fa-envelope"></i>
-          desteksteep@gmail.com
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer with DMCA Badge -->
-  <footer class="footer py-12">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col md:flex-row items-center justify-between">
-        <div class="mb-6 md:mb-0">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 bg-accent-primary/20 rounded-xl flex items-center justify-center">
-              <img src="https://raw.githubusercontent.com/SteepOfficial/SteepWebSite/refs/heads/main/SteepGamesLogoNoBackground.png" alt="Steep Logo" class="w-8">
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-gradient">Steep Games</h3>
-              <p class="text-xs text-muted -mt-1">Roblox Innovators</p>
-            </div>
-          </div>
-          <p class="text-secondary text-sm max-w-md">
-            Creating immersive and high-quality Roblox experiences with passion and innovation.
-          </p>
-        </div>
-
-        <div class="flex flex-col items-center gap-6">
-          <!-- DMCA Badge -->
-          <a href="//www.dmca.com/Protection/Status.aspx?ID=6f17f608-2933-4ddc-a35a-0147cb454f54" 
-             title="DMCA.com Protection Status" 
-             class="dmca-badge"> 
-            <img src="https://images.dmca.com/Badges/DMCA_logo-200w_c.png?ID=6f17f608-2933-4ddc-a35a-0147cb454f54" 
-                 alt="DMCA.com Protection Status" />
-          </a>
-          
-          <div class="text-center">
-            <div class="flex items-center gap-4 mb-2">
-              <a href="mailto:desteksteep@gmail.com" class="text-accent-primary hover:text-accent-tertiary transition-colors">
-                <i class="fas fa-envelope text-xl"></i>
-              </a>
-              <span class="w-1 h-1 bg-accent-primary rounded-full"></span>
-              <span class="text-secondary text-sm">desteksteep@gmail.com</span>
-            </div>
-            <p class="text-muted text-xs">
-              © 2025 Steep Games. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <button id="scrollTopBtn" class="scroll-top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-
-  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
-  <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      const icon = mobileMenuBtn.querySelector('i');
-      icon.classList.toggle('fa-bars');
-      icon.classList.toggle('fa-times');
-    });
-
-    // Close mobile menu when clicking on a link
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        const icon = mobileMenuBtn.querySelector('i');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
-      });
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          const offset = 100;
-          const targetPosition = target.offsetTop - offset;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voryn - Modern Chat</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      });
-    });
 
-    // Scroll reveal animation
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
         }
-      });
-    }, observerOptions);
 
-    document.querySelectorAll('.scroll-reveal').forEach(el => {
-      observer.observe(el);
-    });
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
 
-    // Counter animation
-    const counters = document.querySelectorAll('.stat-number');
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const target = parseInt(entry.target.dataset.target);
-          let current = 0;
-          const increment = target / 100;
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              entry.target.textContent = target.toLocaleString();
-              clearInterval(timer);
-            } else {
-              entry.target.textContent = Math.floor(current).toLocaleString();
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 350px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-box h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Main Chat Interface */
+        .chat-container {
+            display: none;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+
+        .chat-wrapper {
+            display: flex;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+
+        .sidebar-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #4CAF50;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -8px;
+            margin-top: 25px;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Search Bar */
+        .search-container {
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Friends List */
+        .friends-section {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .friend-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .friend-item:hover {
+            background: #f8f9fa;
+        }
+
+        .friend-item.active {
+            background: #e3f2fd;
+            border-right: 3px solid #667eea;
+        }
+
+        .friend-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .friend-status {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+        }
+
+        .offline-dot {
+            width: 8px;
+            height: 8px;
+            background: #ccc;
+            border-radius: 50%;
+        }
+
+        /* Add Friend Section */
+        .add-friend {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-friend input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .add-friend button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-friend button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Main Chat Area */
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f5f5f5;
+        }
+
+        .chat-header {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .chat-user-details h3 {
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .chat-user-details p {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-action-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-action-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        /* Messages Area */
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 5px;
+            animation: messageSlide 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.received {
+            background: white;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.received .message-time {
+            text-align: left;
+        }
+
+        /* Message Input */
+        .message-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            resize: none;
+            max-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Empty State */
+        .empty-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .empty-chat i {
+            font-size: 80px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-chat h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Friend Request */
+        .request-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #fff3cd;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .accept-btn, .reject-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .accept-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .accept-btn:hover, .reject-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .notification.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .notification.error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .notification.info {
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chat-wrapper {
+                flex-direction: column;
             }
-          }, 20);
-          counterObserver.unobserve(entry.target);
+            
+            .sidebar {
+                width: 100%;
+                height: 50%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            .main-chat {
+                height: 50%;
+            }
         }
-      });
-    }, { threshold: 0.5 });
 
-    counters.forEach(counter => {
-      counterObserver.observe(counter);
-    });
-
-    // Scroll to top button
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    });
-
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-
-    // Parallax effect for background elements
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const parallaxElements = document.querySelectorAll('.floating');
-      
-      parallaxElements.forEach(element => {
-        const speed = 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-      });
-    });
-
-    // Navbar hide/show on scroll
-    let lastScrollTop = 0;
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
-      if (scrollTop > lastScrollTop && scrollTop > 100) {
-        // Scrolling down
-        navbar.style.transform = 'translateX(-50%) translateY(-100px)';
-        navbar.style.opacity = '0.8';
-      } else {
-        // Scrolling up
-        navbar.style.transform = 'translateX(-50%) translateY(0)';
-        navbar.style.opacity = '1';
-      }
-      
-      lastScrollTop = scrollTop;
-    });
-
-    // Add loading animation
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        mobileMenu.classList.add('hidden');
-        const icon = mobileMenuBtn.querySelector('i');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
-      }
-    });
-
-    // Performance optimization - throttle scroll events
-    function throttle(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    }
-
-    // Apply throttling to scroll events
-    const throttledScrollHandler = throttle(() => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
-      if (scrollTop > lastScrollTop && scrollTop > 100) {
-        navbar.style.transform = 'translateX(-50%) translateY(-100px)';
-        navbar.style.opacity = '0.8';
-      } else {
-        navbar.style.transform = 'translateX(-50%) translateY(0)';
-        navbar.style.opacity = '1';
-      }
-      
-      lastScrollTop = scrollTop;
-      
-      // Scroll to top button
-      if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    }, 16);
-
-    window.addEventListener('scroll', throttledScrollHandler);
-  </script>
-
-  <script>
-    document.addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-        return false;
-    });
-    
-    document.addEventListener("keydown", function(e) {
-        if (e.ctrlKey && (
-            e.key === "u" ||  // Ctrl+U
-            e.key === "s"     // Ctrl+S
-        )) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-        
-        // F12 ve diğer developer keys
-        if (e.key === "F12" || 
-            (e.ctrlKey && e.shiftKey && e.key === "I") ||
-            (e.ctrlKey && e.shiftKey && e.key === "C") ||
-            (e.ctrlKey && e.shiftKey && e.key === "J")) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-    });
-    
-    // Ekstra koruma
-    document.addEventListener("keypress", function(e) {
-        if (e.ctrlKey && (
-            e.key === "u" || 
-            e.key === "s"
-        )) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
         }
-    });
-  </script>
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h1>Voryn</h1>
+            <p>Modern sohbet deneyimi</p>
+            <input type="text" class="login-input" id="usernameInput" placeholder="Kullanıcı adınızı girin" maxlength="20">
+            <button class="login-btn" onclick="login()">
+                <span id="loginText">Giriş Yap</span>
+                <span id="loginLoading" class="loading" style="display: none;"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div class="chat-container" id="chatScreen">
+        <div class="chat-wrapper">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <div class="avatar" id="userAvatar">A</div>
+                        <div class="status-indicator"></div>
+                        <div>
+                            <div id="currentUsername">Kullanıcı</div>
+                            <div style="font-size: 12px; opacity: 0.8;">Aktif</div>
+                        </div>
+                    </div>
+                    <div class="sidebar-actions">
+                        <button class="action-btn" onclick="showSettings()" title="Ayarlar">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button class="action-btn" onclick="logout()" title="Çıkış">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="🔍 Arkadaş ara..." id="friendSearch" oninput="filterFriends()">
+                </div>
+
+                <!-- Friends Section -->
+                <div class="friends-section">
+                    <div class="section-header">
+                        <span>Arkadaşlar (<span id="friendsCount">0</span>)</span>
+                        <button class="action-btn" onclick="refreshFriends()" title="Yenile">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div id="friendsList"></div>
+
+                    <!-- Friend Requests -->
+                    <div id="requestsSection" style="display: none;">
+                        <div class="section-header">
+                            <span>Gelen İstekler (<span id="requestsCount">0</span>)</span>
+                        </div>
+                        <div id="friendRequests"></div>
+                    </div>
+                </div>
+
+                <!-- Add Friend -->
+                <div class="add-friend">
+                    <input type="text" id="addFriendInput" placeholder="Kullanıcı adı girin..." maxlength="20">
+                    <button onclick="sendFriendRequest()">
+                        <i class="fas fa-user-plus"></i> Ekle
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Chat -->
+            <div class="main-chat">
+                <div class="chat-header" id="chatHeader" style="display: none;">
+                    <div class="chat-user-info">
+                        <div class="chat-avatar" id="chatAvatar">?</div>
+                        <div class="chat-user-details">
+                            <h3 id="chatUsername">Seçili Kullanıcı</h3>
+                            <p id="chatUserStatus">
+                                <span class="online-dot"></span>
+                                Aktif
+                            </p>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="chat-action-btn" onclick="clearChat()" title="Sohbeti Temizle">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="chat-action-btn" onclick="blockUser()" title="Engelle">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messagesContainer">
+                    <div class="empty-chat">
+                        <i class="fas fa-comments"></i>
+                        <h3>Voryn'e Hoş Geldiniz!</h3>
+                        <p>Sohbete başlamak için bir arkadaş seçin</p>
+                    </div>
+                </div>
+
+                <div class="message-input-container" id="messageInputContainer" style="display: none;">
+                    <textarea class="message-input" id="messageInput" placeholder="Mesajınızı yazın..." rows="1"></textarea>
+                    <button class="send-btn" onclick="sendMessage()" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Global variables
+        const NGROK_URL = 'https://19b80822b09a.ngrok-free.app';
+        const socket = io(NGROK_URL);
+        let currentUser = null;
+        let currentChat = null;
+        let friends = [];
+        let pendingRequests = [];
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const chatScreen = document.getElementById('chatScreen');
+        const usernameInput = document.getElementById('usernameInput');
+        const messageInput = document.getElementById('messageInput');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const friendsList = document.getElementById('friendsList');
+        const friendRequests = document.getElementById('friendRequests');
+
+        // Login function
+        function login() {
+            const username = usernameInput.value.trim();
+            if (!username) {
+                showNotification('Lütfen kullanıcı adınızı girin', 'error');
+                return;
+            }
+
+            if (username.length < 3) {
+                showNotification('Kullanıcı adı en az 3 karakter olmalı', 'error');
+                return;
+            }
+
+            showLoginLoading(true);
+            currentUser = username;
+            socket.emit('login', username);
+        }
+
+        function showLoginLoading(show) {
+            const loginText = document.getElementById('loginText');
+            const loginLoading = document.getElementById('loginLoading');
+            
+            if (show) {
+                loginText.style.display = 'none';
+                loginLoading.style.display = 'inline-block';
+            } else {
+                loginText.style.display = 'inline';
+                loginLoading.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                socket.disconnect();
+                currentUser = null;
+                currentChat = null;
+                friends = [];
+                pendingRequests = [];
+                
+                loginScreen.style.display = 'flex';
+                chatScreen.style.display = 'none';
+                usernameInput.value = '';
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        }
+
+        // Socket event listeners
+        socket.on('friends', (friendsList) => {
+            friends = friendsList || [];
+            updateFriendsDisplay();
+            showLoginLoading(false);
+            
+            loginScreen.style.display = 'none';
+            chatScreen.style.display = 'block';
+            
+            document.getElementById('currentUsername').textContent = currentUser;
+            document.getElementById('userAvatar').textContent = currentUser[0].toUpperCase();
+            
+            showNotification('Başarıyla giriş yaptınız!', 'success');
+        });
+
+        socket.on('pendingRequests', (requests) => {
+            pendingRequests = requests || [];
+            updateRequestsDisplay();
+        });
+
+        socket.on('friendRequest', ({ from }) => {
+            if (!pendingRequests.includes(from)) {
+                pendingRequests.push(from);
+                updateRequestsDisplay();
+                showNotification(`${from} size arkadaş isteği gönderdi`, 'info');
+            }
+        });
+
+        socket.on('requestSent', ({ to }) => {
+            showNotification(`${to} kişisine arkadaş isteği gönderildi`, 'success');
+            document.getElementById('addFriendInput').value = '';
+        });
+
+        socket.on('friendAdded', ({ friend }) => {
+            if (!friends.some(f => f.username === friend)) {
+                friends.push({ username: friend, status: 'online' });
+                updateFriendsDisplay();
+                showNotification(`${friend} arkadaş listenize eklendi`, 'success');
+            }
+        });
+
+        socket.on('friendStatusUpdate', ({ username, status, lastSeen }) => {
+            const friend = friends.find(f => f.username === username);
+            if (friend) {
+                friend.status = status;
+                friend.lastSeen = lastSeen;
+                updateFriendsDisplay();
+                
+                if (currentChat === username) {
+                    updateChatUserStatus(status, lastSeen);
+                }
+            }
+        });
+
+        socket.on('newMessage', (messageData) => {
+            if (messageData.from === currentChat) {
+                displayMessage(messageData.from, messageData.message, false, messageData.timestamp);
+                
+                // Mark message as read
+                socket.emit('markAsRead', {
+                    from: messageData.from,
+                    messageIds: [messageData.id]
+                });
+            } else {
+                // Show notification for messages from other friends
+                showNotification(`${messageData.from}: ${messageData.message.substring(0, 30)}...`, 'info');
+            }
+        });
+
+        socket.on('messageHistory', ({ messages }) => {
+            messagesContainer.innerHTML = '';
+            messages.forEach(msg => {
+                const isSent = msg.from === currentUser;
+                displayMessage(isSent ? 'Ben' : msg.from, msg.message, isSent, msg.timestamp);
+            });
+        });
+
+        socket.on('messageSent', ({ messageId, timestamp }) => {
+            // Message sent confirmation
+        });
+
+        socket.on('error', ({ message }) => {
+            showNotification(message, 'error');
+            showLoginLoading(false);
+        });
+
+        // Friend management functions
+        function updateFriendsDisplay() {
+            friendsList.innerHTML = '';
+            document.getElementById('friendsCount').textContent = friends.length;
+
+            friends.forEach(friend => {
+                const friendElement = createFriendElement(friend);
+                friendsList.appendChild(friendElement);
+            });
+        }
+
+        function createFriendElement(friend) {
+            const div = document.createElement('div');
+            div.className = 'friend-item';
+            div.onclick = () => selectChat(friend.username);
+            
+            const isOnline = friend.status === 'online';
+            const statusText = isOnline ? 'Aktif' : 
+                              friend.status === 'away' ? 'Uzakta' :
+                              friend.status === 'busy' ? 'Meşgul' : 'Çevrimdışı';
+            
+            div.innerHTML = `
+                <div class="friend-avatar">
+                    ${friend.username[0].toUpperCase()}
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">${friend.username}</div>
+                    <div class="friend-status">
+                        <div class="${isOnline ? 'online-dot' : 'offline-dot'}"></div>
+                        ${statusText}
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        function updateRequestsDisplay() {
+            const requestsSection = document.getElementById('requestsSection');
+            const requestsCount = document.getElementById('requestsCount');
+            
+            friendRequests.innerHTML = '';
+            requestsCount.textContent = pendingRequests.length;
+            
+            if (pendingRequests.length > 0) {
+                requestsSection.style.display = 'block';
+                
+                pendingRequests.forEach(from => {
+                    const requestElement = createRequestElement(from);
+                    friendRequests.appendChild(requestElement);
+                });
+            } else {
+                requestsSection.style.display = 'none';
+            }
+        }
+
+        function createRequestElement(from) {
+            const div = document.createElement('div');
+            div.className = 'request-item';
+            
+            div.innerHTML = `
+                <div class="friend-avatar">
+                    ${from[0].toUpperCase()}
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">${from}</div>
+                    <div class="friend-status">Arkadaş isteği gönderdi</div>
+                </div>
+                <div class="request-actions">
+                    <button class="accept-btn" onclick="acceptFriendRequest('${from}')">
+                        <i class="fas fa-check"></i> Kabul Et
+                    </button>
+                    <button class="reject-btn" onclick="rejectFriendRequest('${from}')">
+                        <i class="fas fa-times"></i> Reddet
+                    </button>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        function sendFriendRequest() {
+            const username = document.getElementById('addFriendInput').value.trim();
+            
+            if (!username) {
+                showNotification('Lütfen kullanıcı adı girin', 'error');
+                return;
+            }
+            
+            if (username === currentUser) {
+                showNotification('Kendinizi arkadaş olarak ekleyemezsiniz', 'error');
+                return;
+            }
+            
+            if (friends.some(f => f.username === username)) {
+                showNotification('Bu kişi zaten arkadaşınız', 'error');
+                return;
+            }
+            
+            socket.emit('sendFriendRequest', { to: username });
+        }
+
+        function acceptFriendRequest(from) {
+            socket.emit('acceptFriendRequest', { from });
+            pendingRequests = pendingRequests.filter(request => request !== from);
+            updateRequestsDisplay();
+        }
+
+        function rejectFriendRequest(from) {
+            socket.emit('rejectFriendRequest', { from });
+            pendingRequests = pendingRequests.filter(request => request !== from);
+            updateRequestsDisplay();
+            showNotification(`${from} kişisinin isteği reddedildi`, 'info');
+        }
+
+        // Chat functions
+        function selectChat(username) {
+            // Remove active class from all friend items
+            document.querySelectorAll('.friend-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to selected friend
+            event.currentTarget.classList.add('active');
+            
+            currentChat = username;
+            
+            // Update chat header
+            document.getElementById('chatHeader').style.display = 'flex';
+            document.getElementById('messageInputContainer').style.display = 'flex';
+            document.getElementById('chatUsername').textContent = username;
+            document.getElementById('chatAvatar').textContent = username[0].toUpperCase();
+            
+            // Update user status
+            const friend = friends.find(f => f.username === username);
+            if (friend) {
+                updateChatUserStatus(friend.status, friend.lastSeen);
+            }
+            
+            // Load message history
+            socket.emit('loadMessages', { with: username });
+        }
+
+        function updateChatUserStatus(status, lastSeen) {
+            const statusElement = document.getElementById('chatUserStatus');
+            const isOnline = status === 'online';
+            const statusText = isOnline ? 'Aktif' : 
+                              status === 'away' ? 'Uzakta' :
+                              status === 'busy' ? 'Meşgul' : 'Çevrimdışı';
+            
+            statusElement.innerHTML = `
+                <div class="${isOnline ? 'online-dot' : 'offline-dot'}"></div>
+                ${statusText}
+            `;
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            
+            if (!message || !currentChat) return;
+            
+            socket.emit('sendMessage', {
+                to: currentChat,
+                message: message,
+                type: 'text'
+            });
+            
+            displayMessage('Ben', message, true, new Date());
+            messageInput.value = '';
+            adjustTextareaHeight();
+        }
+
+        function displayMessage(sender, message, isSent, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+            
+            const time = new Date(timestamp).toLocaleTimeString('tr-TR', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            messageDiv.innerHTML = `
+                <div>${message}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function clearChat() {
+            if (confirm('Bu sohbetteki tüm mesajları temizlemek istediğinizden emin misiniz?')) {
+                messagesContainer.innerHTML = '';
+                showNotification('Sohbet temizlendi', 'info');
+            }
+        }
+
+        function blockUser() {
+            if (!currentChat) return;
+            
+            if (confirm(`${currentChat} kişisini engellemek istediğinizden emin misiniz?`)) {
+                socket.emit('blockUser', { username: currentChat });
+                
+                // Remove from friends list
+                friends = friends.filter(f => f.username !== currentChat);
+                updateFriendsDisplay();
+                
+                // Clear current chat
+                currentChat = null;
+                document.getElementById('chatHeader').style.display = 'none';
+                document.getElementById('messageInputContainer').style.display = 'none';
+                messagesContainer.innerHTML = `
+                    <div class="empty-chat">
+                        <i class="fas fa-comments"></i>
+                        <h3>Kullanıcı Engellendi</h3>
+                        <p>Sohbete devam etmek için başka bir arkadaş seçin</p>
+                    </div>
+                `;
+                
+                showNotification('Kullanıcı engellendi', 'success');
+            }
+        }
+
+        // Utility functions
+        function filterFriends() {
+            const searchTerm = document.getElementById('friendSearch').value.toLowerCase();
+            const friendItems = document.querySelectorAll('.friend-item');
+            
+            friendItems.forEach(item => {
+                const friendName = item.querySelector('.friend-name').textContent.toLowerCase();
+                item.style.display = friendName.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+
+        function refreshFriends() {
+            socket.emit('login', currentUser);
+            showNotification('Arkadaş listesi yenilendi', 'info');
+        }
+
+        function showSettings() {
+            alert('Ayarlar özelliği yakında eklenecek!');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 5px;">
+                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'} 
+                    ${type === 'success' ? 'Başarılı' : type === 'error' ? 'Hata' : 'Bilgi'}
+                </div>
+                <div>${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        function adjustTextareaHeight() {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = messageInput.scrollHeight + 'px';
+        }
+
+        // Event listeners
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        messageInput.addEventListener('input', adjustTextareaHeight);
+
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
+        document.getElementById('addFriendInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendFriendRequest();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            usernameInput.focus();
+        });
+    </script>
 </body>
 </html>
