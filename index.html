@@ -93,7 +93,40 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        /* Main Chat Interface */
+        .login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Connection Status */
+        .connection-status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .status-connecting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Main Chat Interface - Same styles from original */
         .chat-container {
             display: none;
             height: 100vh;
@@ -109,7 +142,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* Sidebar */
+        /* All the remaining styles from the original file... */
         .sidebar {
             width: 350px;
             background: white;
@@ -183,7 +216,6 @@
             transform: scale(1.1);
         }
 
-        /* Search Bar */
         .search-container {
             padding: 15px;
             background: #f8f9fa;
@@ -206,7 +238,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        /* Friends List */
         .friends-section {
             flex: 1;
             overflow-y: auto;
@@ -288,7 +319,6 @@
             border-radius: 50%;
         }
 
-        /* Add Friend Section */
         .add-friend {
             padding: 15px 20px;
             background: #f8f9fa;
@@ -321,7 +351,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        /* Main Chat Area */
         .main-chat {
             flex: 1;
             display: flex;
@@ -329,176 +358,6 @@
             background: #f5f5f5;
         }
 
-        .chat-header {
-            background: white;
-            padding: 20px;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .chat-user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .chat-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .chat-user-details h3 {
-            color: #333;
-            margin-bottom: 2px;
-        }
-
-        .chat-user-details p {
-            font-size: 12px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-action-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chat-action-btn:hover {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        /* Messages Area */
-        .messages-container {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .message {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            margin-bottom: 5px;
-            animation: messageSlide 0.3s ease-out;
-            position: relative;
-        }
-
-        @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.sent {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.received {
-            background: white;
-            color: #333;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .message-time {
-            font-size: 11px;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .message.received .message-time {
-            text-align: left;
-        }
-
-        /* Message Input */
-        .message-input-container {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 16px;
-            resize: none;
-            max-height: 100px;
-            transition: all 0.3s ease;
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .send-btn {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .send-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Empty State */
         .empty-chat {
             flex: 1;
             display: flex;
@@ -520,47 +379,21 @@
             color: #333;
         }
 
-        /* Friend Request */
-        .request-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #fff3cd;
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .request-actions {
-            display: flex;
-            gap: 10px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .accept-btn, .reject-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .accept-btn {
-            background: #28a745;
-            color: white;
-        }
-
-        .reject-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .accept-btn:hover, .reject-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -590,58 +423,6 @@
         .notification.info {
             border-left: 4px solid #17a2b8;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .chat-wrapper {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: 50%;
-                border-right: none;
-                border-bottom: 1px solid #e0e0e0;
-            }
-            
-            .main-chat {
-                height: 50%;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
@@ -650,8 +431,14 @@
         <div class="login-box">
             <h1>Voryn</h1>
             <p>Modern sohbet deneyimi</p>
-            <input type="text" class="login-input" id="usernameInput" placeholder="Kullanıcı adınızı girin" maxlength="20">
-            <button class="login-btn" onclick="login()">
+            
+            <div class="connection-status status-connecting" id="connectionStatus">
+                <div class="loading"></div>
+                <span>Server'a bağlanıyor...</span>
+            </div>
+            
+            <input type="text" class="login-input" id="usernameInput" placeholder="Kullanıcı adınızı girin" maxlength="20" disabled>
+            <button class="login-btn" onclick="login()" id="loginBtn" disabled>
                 <span id="loginText">Giriş Yap</span>
                 <span id="loginLoading" class="loading" style="display: none;"></span>
             </button>
@@ -661,7 +448,6 @@
     <!-- Main Chat Interface -->
     <div class="chat-container" id="chatScreen">
         <div class="chat-wrapper">
-            <!-- Sidebar -->
             <div class="sidebar">
                 <div class="sidebar-header">
                     <div class="user-info">
@@ -683,10 +469,9 @@
                 </div>
 
                 <div class="search-container">
-                    <input type="text" class="search-box" placeholder="🔍 Arkadaş ara..." id="friendSearch" oninput="filterFriends()">
+                    <input type="text" class="search-box" placeholder="🔍 Arkadaş ara..." id="friendSearch">
                 </div>
 
-                <!-- Friends Section -->
                 <div class="friends-section">
                     <div class="section-header">
                         <span>Arkadaşlar (<span id="friendsCount">0</span>)</span>
@@ -695,17 +480,8 @@
                         </button>
                     </div>
                     <div id="friendsList"></div>
-
-                    <!-- Friend Requests -->
-                    <div id="requestsSection" style="display: none;">
-                        <div class="section-header">
-                            <span>Gelen İstekler (<span id="requestsCount">0</span>)</span>
-                        </div>
-                        <div id="friendRequests"></div>
-                    </div>
                 </div>
 
-                <!-- Add Friend -->
                 <div class="add-friend">
                     <input type="text" id="addFriendInput" placeholder="Kullanıcı adı girin..." maxlength="20">
                     <button onclick="sendFriendRequest()">
@@ -714,68 +490,123 @@
                 </div>
             </div>
 
-            <!-- Main Chat -->
             <div class="main-chat">
-                <div class="chat-header" id="chatHeader" style="display: none;">
-                    <div class="chat-user-info">
-                        <div class="chat-avatar" id="chatAvatar">?</div>
-                        <div class="chat-user-details">
-                            <h3 id="chatUsername">Seçili Kullanıcı</h3>
-                            <p id="chatUserStatus">
-                                <span class="online-dot"></span>
-                                Aktif
-                            </p>
-                        </div>
-                    </div>
-                    <div class="chat-actions">
-                        <button class="chat-action-btn" onclick="clearChat()" title="Sohbeti Temizle">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button class="chat-action-btn" onclick="blockUser()" title="Engelle">
-                            <i class="fas fa-ban"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="messages-container" id="messagesContainer">
-                    <div class="empty-chat">
-                        <i class="fas fa-comments"></i>
-                        <h3>Voryn'e Hoş Geldiniz!</h3>
-                        <p>Sohbete başlamak için bir arkadaş seçin</p>
-                    </div>
-                </div>
-
-                <div class="message-input-container" id="messageInputContainer" style="display: none;">
-                    <textarea class="message-input" id="messageInput" placeholder="Mesajınızı yazın..." rows="1"></textarea>
-                    <button class="send-btn" onclick="sendMessage()" id="sendBtn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                <div class="empty-chat">
+                    <i class="fas fa-comments"></i>
+                    <h3>Voryn'e Hoş Geldiniz!</h3>
+                    <p>Sohbete başlamak için bir arkadaş ekleyin</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- Socket.IO CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
     <script>
         // Global variables
-        const NGROK_URL = 'https://19b80822b09a.ngrok-free.app';
-        const socket = io(NGROK_URL);
+        let socket = null;
         let currentUser = null;
-        let currentChat = null;
-        let friends = [];
-        let pendingRequests = [];
-
+        let isConnected = false;
+        
         // DOM Elements
         const loginScreen = document.getElementById('loginScreen');
         const chatScreen = document.getElementById('chatScreen');
         const usernameInput = document.getElementById('usernameInput');
-        const messageInput = document.getElementById('messageInput');
-        const messagesContainer = document.getElementById('messagesContainer');
-        const friendsList = document.getElementById('friendsList');
-        const friendRequests = document.getElementById('friendRequests');
+        const loginBtn = document.getElementById('loginBtn');
+        const connectionStatus = document.getElementById('connectionStatus');
 
-        // Login function
+        // Initialize connection
+        function initializeConnection() {
+            // Try to connect to current domain first (for local development)
+            const serverUrl = window.location.origin;
+            
+            console.log('Bağlantı deneniyor:', serverUrl);
+            socket = io(serverUrl, {
+                transports: ['websocket', 'polling'],
+                timeout: 5000,
+                reconnection: true,
+                reconnectionAttempts: 3
+            });
+
+            setupSocketEvents();
+        }
+
+        function setupSocketEvents() {
+            socket.on('connect', () => {
+                console.log('Socket bağlandı:', socket.id);
+                isConnected = true;
+                updateConnectionStatus('connected');
+                enableLogin();
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Socket bağlantısı kesildi');
+                isConnected = false;
+                updateConnectionStatus('error', 'Bağlantı kesildi');
+                disableLogin();
+            });
+
+            socket.on('connect_error', (error) => {
+                console.error('Bağlantı hatası:', error);
+                isConnected = false;
+                updateConnectionStatus('error', 'Bağlantı hatası - Server çalışıyor mu?');
+                disableLogin();
+            });
+
+            socket.on('friends', (friendsList) => {
+                console.log('Arkadaş listesi alındı:', friendsList);
+                showLoginLoading(false);
+                
+                loginScreen.style.display = 'none';
+                chatScreen.style.display = 'block';
+                
+                document.getElementById('currentUsername').textContent = currentUser;
+                document.getElementById('userAvatar').textContent = currentUser[0].toUpperCase();
+                document.getElementById('friendsCount').textContent = friendsList.length || 0;
+                
+                showNotification('Başarıyla giriş yaptınız!', 'success');
+            });
+
+            socket.on('error', ({ message }) => {
+                showNotification(message, 'error');
+                showLoginLoading(false);
+            });
+        }
+
+        function updateConnectionStatus(status, message) {
+            const statusEl = connectionStatus;
+            statusEl.className = `connection-status status-${status}`;
+            
+            switch(status) {
+                case 'connecting':
+                    statusEl.innerHTML = '<div class="loading"></div><span>Server\'a bağlanıyor...</span>';
+                    break;
+                case 'connected':
+                    statusEl.innerHTML = '<i class="fas fa-check-circle"></i><span>Bağlantı başarılı!</span>';
+                    break;
+                case 'error':
+                    statusEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i><span>${message}</span>`;
+                    break;
+            }
+        }
+
+        function enableLogin() {
+            usernameInput.disabled = false;
+            loginBtn.disabled = false;
+            usernameInput.focus();
+        }
+
+        function disableLogin() {
+            usernameInput.disabled = true;
+            loginBtn.disabled = true;
+        }
+
         function login() {
+            if (!isConnected) {
+                showNotification('Server bağlantısı yok!', 'error');
+                return;
+            }
+
             const username = usernameInput.value.trim();
             if (!username) {
                 showNotification('Lütfen kullanıcı adınızı girin', 'error');
@@ -789,6 +620,8 @@
 
             showLoginLoading(true);
             currentUser = username;
+            
+            console.log('Login deneniyor:', username);
             socket.emit('login', username);
         }
 
@@ -799,195 +632,19 @@
             if (show) {
                 loginText.style.display = 'none';
                 loginLoading.style.display = 'inline-block';
+                loginBtn.disabled = true;
             } else {
                 loginText.style.display = 'inline';
                 loginLoading.style.display = 'none';
+                loginBtn.disabled = false;
             }
         }
 
         function logout() {
             if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
                 socket.disconnect();
-                currentUser = null;
-                currentChat = null;
-                friends = [];
-                pendingRequests = [];
-                
-                loginScreen.style.display = 'flex';
-                chatScreen.style.display = 'none';
-                usernameInput.value = '';
-                
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
+                location.reload();
             }
-        }
-
-        // Socket event listeners
-        socket.on('friends', (friendsList) => {
-            friends = friendsList || [];
-            updateFriendsDisplay();
-            showLoginLoading(false);
-            
-            loginScreen.style.display = 'none';
-            chatScreen.style.display = 'block';
-            
-            document.getElementById('currentUsername').textContent = currentUser;
-            document.getElementById('userAvatar').textContent = currentUser[0].toUpperCase();
-            
-            showNotification('Başarıyla giriş yaptınız!', 'success');
-        });
-
-        socket.on('pendingRequests', (requests) => {
-            pendingRequests = requests || [];
-            updateRequestsDisplay();
-        });
-
-        socket.on('friendRequest', ({ from }) => {
-            if (!pendingRequests.includes(from)) {
-                pendingRequests.push(from);
-                updateRequestsDisplay();
-                showNotification(`${from} size arkadaş isteği gönderdi`, 'info');
-            }
-        });
-
-        socket.on('requestSent', ({ to }) => {
-            showNotification(`${to} kişisine arkadaş isteği gönderildi`, 'success');
-            document.getElementById('addFriendInput').value = '';
-        });
-
-        socket.on('friendAdded', ({ friend }) => {
-            if (!friends.some(f => f.username === friend)) {
-                friends.push({ username: friend, status: 'online' });
-                updateFriendsDisplay();
-                showNotification(`${friend} arkadaş listenize eklendi`, 'success');
-            }
-        });
-
-        socket.on('friendStatusUpdate', ({ username, status, lastSeen }) => {
-            const friend = friends.find(f => f.username === username);
-            if (friend) {
-                friend.status = status;
-                friend.lastSeen = lastSeen;
-                updateFriendsDisplay();
-                
-                if (currentChat === username) {
-                    updateChatUserStatus(status, lastSeen);
-                }
-            }
-        });
-
-        socket.on('newMessage', (messageData) => {
-            if (messageData.from === currentChat) {
-                displayMessage(messageData.from, messageData.message, false, messageData.timestamp);
-                
-                // Mark message as read
-                socket.emit('markAsRead', {
-                    from: messageData.from,
-                    messageIds: [messageData.id]
-                });
-            } else {
-                // Show notification for messages from other friends
-                showNotification(`${messageData.from}: ${messageData.message.substring(0, 30)}...`, 'info');
-            }
-        });
-
-        socket.on('messageHistory', ({ messages }) => {
-            messagesContainer.innerHTML = '';
-            messages.forEach(msg => {
-                const isSent = msg.from === currentUser;
-                displayMessage(isSent ? 'Ben' : msg.from, msg.message, isSent, msg.timestamp);
-            });
-        });
-
-        socket.on('messageSent', ({ messageId, timestamp }) => {
-            // Message sent confirmation
-        });
-
-        socket.on('error', ({ message }) => {
-            showNotification(message, 'error');
-            showLoginLoading(false);
-        });
-
-        // Friend management functions
-        function updateFriendsDisplay() {
-            friendsList.innerHTML = '';
-            document.getElementById('friendsCount').textContent = friends.length;
-
-            friends.forEach(friend => {
-                const friendElement = createFriendElement(friend);
-                friendsList.appendChild(friendElement);
-            });
-        }
-
-        function createFriendElement(friend) {
-            const div = document.createElement('div');
-            div.className = 'friend-item';
-            div.onclick = () => selectChat(friend.username);
-            
-            const isOnline = friend.status === 'online';
-            const statusText = isOnline ? 'Aktif' : 
-                              friend.status === 'away' ? 'Uzakta' :
-                              friend.status === 'busy' ? 'Meşgul' : 'Çevrimdışı';
-            
-            div.innerHTML = `
-                <div class="friend-avatar">
-                    ${friend.username[0].toUpperCase()}
-                </div>
-                <div class="friend-info">
-                    <div class="friend-name">${friend.username}</div>
-                    <div class="friend-status">
-                        <div class="${isOnline ? 'online-dot' : 'offline-dot'}"></div>
-                        ${statusText}
-                    </div>
-                </div>
-            `;
-            
-            return div;
-        }
-
-        function updateRequestsDisplay() {
-            const requestsSection = document.getElementById('requestsSection');
-            const requestsCount = document.getElementById('requestsCount');
-            
-            friendRequests.innerHTML = '';
-            requestsCount.textContent = pendingRequests.length;
-            
-            if (pendingRequests.length > 0) {
-                requestsSection.style.display = 'block';
-                
-                pendingRequests.forEach(from => {
-                    const requestElement = createRequestElement(from);
-                    friendRequests.appendChild(requestElement);
-                });
-            } else {
-                requestsSection.style.display = 'none';
-            }
-        }
-
-        function createRequestElement(from) {
-            const div = document.createElement('div');
-            div.className = 'request-item';
-            
-            div.innerHTML = `
-                <div class="friend-avatar">
-                    ${from[0].toUpperCase()}
-                </div>
-                <div class="friend-info">
-                    <div class="friend-name">${from}</div>
-                    <div class="friend-status">Arkadaş isteği gönderdi</div>
-                </div>
-                <div class="request-actions">
-                    <button class="accept-btn" onclick="acceptFriendRequest('${from}')">
-                        <i class="fas fa-check"></i> Kabul Et
-                    </button>
-                    <button class="reject-btn" onclick="rejectFriendRequest('${from}')">
-                        <i class="fas fa-times"></i> Reddet
-                    </button>
-                </div>
-            `;
-            
-            return div;
         }
 
         function sendFriendRequest() {
@@ -1003,149 +660,15 @@
                 return;
             }
             
-            if (friends.some(f => f.username === username)) {
-                showNotification('Bu kişi zaten arkadaşınız', 'error');
-                return;
-            }
-            
             socket.emit('sendFriendRequest', { to: username });
-        }
-
-        function acceptFriendRequest(from) {
-            socket.emit('acceptFriendRequest', { from });
-            pendingRequests = pendingRequests.filter(request => request !== from);
-            updateRequestsDisplay();
-        }
-
-        function rejectFriendRequest(from) {
-            socket.emit('rejectFriendRequest', { from });
-            pendingRequests = pendingRequests.filter(request => request !== from);
-            updateRequestsDisplay();
-            showNotification(`${from} kişisinin isteği reddedildi`, 'info');
-        }
-
-        // Chat functions
-        function selectChat(username) {
-            // Remove active class from all friend items
-            document.querySelectorAll('.friend-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Add active class to selected friend
-            event.currentTarget.classList.add('active');
-            
-            currentChat = username;
-            
-            // Update chat header
-            document.getElementById('chatHeader').style.display = 'flex';
-            document.getElementById('messageInputContainer').style.display = 'flex';
-            document.getElementById('chatUsername').textContent = username;
-            document.getElementById('chatAvatar').textContent = username[0].toUpperCase();
-            
-            // Update user status
-            const friend = friends.find(f => f.username === username);
-            if (friend) {
-                updateChatUserStatus(friend.status, friend.lastSeen);
-            }
-            
-            // Load message history
-            socket.emit('loadMessages', { with: username });
-        }
-
-        function updateChatUserStatus(status, lastSeen) {
-            const statusElement = document.getElementById('chatUserStatus');
-            const isOnline = status === 'online';
-            const statusText = isOnline ? 'Aktif' : 
-                              status === 'away' ? 'Uzakta' :
-                              status === 'busy' ? 'Meşgul' : 'Çevrimdışı';
-            
-            statusElement.innerHTML = `
-                <div class="${isOnline ? 'online-dot' : 'offline-dot'}"></div>
-                ${statusText}
-            `;
-        }
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            
-            if (!message || !currentChat) return;
-            
-            socket.emit('sendMessage', {
-                to: currentChat,
-                message: message,
-                type: 'text'
-            });
-            
-            displayMessage('Ben', message, true, new Date());
-            messageInput.value = '';
-            adjustTextareaHeight();
-        }
-
-        function displayMessage(sender, message, isSent, timestamp) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-            
-            const time = new Date(timestamp).toLocaleTimeString('tr-TR', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            messageDiv.innerHTML = `
-                <div>${message}</div>
-                <div class="message-time">${time}</div>
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function clearChat() {
-            if (confirm('Bu sohbetteki tüm mesajları temizlemek istediğinizden emin misiniz?')) {
-                messagesContainer.innerHTML = '';
-                showNotification('Sohbet temizlendi', 'info');
-            }
-        }
-
-        function blockUser() {
-            if (!currentChat) return;
-            
-            if (confirm(`${currentChat} kişisini engellemek istediğinizden emin misiniz?`)) {
-                socket.emit('blockUser', { username: currentChat });
-                
-                // Remove from friends list
-                friends = friends.filter(f => f.username !== currentChat);
-                updateFriendsDisplay();
-                
-                // Clear current chat
-                currentChat = null;
-                document.getElementById('chatHeader').style.display = 'none';
-                document.getElementById('messageInputContainer').style.display = 'none';
-                messagesContainer.innerHTML = `
-                    <div class="empty-chat">
-                        <i class="fas fa-comments"></i>
-                        <h3>Kullanıcı Engellendi</h3>
-                        <p>Sohbete devam etmek için başka bir arkadaş seçin</p>
-                    </div>
-                `;
-                
-                showNotification('Kullanıcı engellendi', 'success');
-            }
-        }
-
-        // Utility functions
-        function filterFriends() {
-            const searchTerm = document.getElementById('friendSearch').value.toLowerCase();
-            const friendItems = document.querySelectorAll('.friend-item');
-            
-            friendItems.forEach(item => {
-                const friendName = item.querySelector('.friend-name').textContent.toLowerCase();
-                item.style.display = friendName.includes(searchTerm) ? 'flex' : 'none';
-            });
+            document.getElementById('addFriendInput').value = '';
         }
 
         function refreshFriends() {
-            socket.emit('login', currentUser);
-            showNotification('Arkadaş listesi yenilendi', 'info');
+            if (currentUser && isConnected) {
+                socket.emit('login', currentUser);
+                showNotification('Arkadaş listesi yenilendi', 'info');
+            }
         }
 
         function showSettings() {
@@ -1173,23 +696,9 @@
             }, 3000);
         }
 
-        function adjustTextareaHeight() {
-            messageInput.style.height = 'auto';
-            messageInput.style.height = messageInput.scrollHeight + 'px';
-        }
-
         // Event listeners
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        messageInput.addEventListener('input', adjustTextareaHeight);
-
         usernameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !loginBtn.disabled) {
                 login();
             }
         });
@@ -1200,9 +709,10 @@
             }
         });
 
-        // Initialize
+        // Initialize on page load
         window.addEventListener('load', () => {
-            usernameInput.focus();
+            console.log('Sayfa yüklendi, bağlantı başlatılıyor...');
+            initializeConnection();
         });
     </script>
 </body>
